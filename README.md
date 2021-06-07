@@ -1,0 +1,2 @@
+# inventory
+inventory for goods
