@@ -1,0 +1,81 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+
+<main>
+    <div class="container-fluid">
+        <h1 class="mt-4">Iteam</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">Iteam view</li>
+
+        </ol>
+
+        <div class="row justify-content-between">
+            <div class="col-4">
+                Total data found:{{ totaldata }}
+            </div>
+            <div class="col-4">
+                showing data :{{ showingdata }}
+            </div>
+        </div>
+
+
+
+        <table class="table table-striped">
+            <tr>
+
+                <th>id</th>
+                <th>sl no</th>
+                <th>item_name</th>
+                <th>item_company_name</th>
+                <th>item_model_name</th>
+                <th>item_price</th>
+                <th>item_serial_number</th>
+                <th>item_description</th>
+                <th>created_at</th>
+                <th>last_modified_by</th>
+
+
+
+            </tr>
+
+            {% for item in query_results %}
+            <tr>
+
+                <td>{{ item.id }}</td>
+                <td>{{forloop.counter|add:pagedata_starting}}</td>
+
+                <td>{{ item.item_name }}</td>
+                <td>{{ item.item_company_name }}</td>
+                <td>{{ item.item_model_name }}</td>
+                <td>{{ item.item_price }}</td>
+                <td>{{ item.item_serial_number }}</td>
+                <td>{{ item.item_description }}</td>
+                <td>{{ item.created_at }}</td>
+                <td>{{ item.last_modified_by }}</td>
+
+            </tr>
+            {% endfor %}
+        </table>
+        <nav aria-label="...">
+            <ul class="pagination pagination-sm justify-content-center">
+
+                <li class="page-item"><a class="page-link" href="{% url 'item_view_pagination' prev_pagenumber %}">
+                        pre
+                    </a></li>
+
+                <li class="page-item active"><a class="page-link" href="#">{{ curent_page }}</a></li>
+                <li class="page-item"><a class="page-link" href="{% url 'item_view_pagination' next_page_number %}">
+                        next </a></li>
+            </ul>
+        </nav>
+    </div>
+</main>
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,150 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+
+
+<main>
+    <div class="container-fluid">
+        <h1 class="mt-4">Add User for project</h1>
+
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active"> </li>
+
+            {% for item in project_id_details %}
+
+
+
+
+            <p class="btn btn-success active"> {{ item.pm_project_name }} </p>
+            <div class='float-left'>
+          <a href="{% url 'details_of_project' item.pm_id %}" class="btn btn-info" role="button" aria-pressed="true">
+              project Dashboard </a>
+                </div>
+
+
+                      {% endfor %}
+
+
+        </ol>
+
+
+        <div class='float-right'>
+            <a href="{% url 'create_sitemanager' %}" class="btn btn-warning" role="button"
+                aria-pressed="true">create
+                project manager </a>
+            <a href="{% url 'create_site_user' %}" class="btn btn-info " role="button" aria-pressed="true">create
+                project user </a>
+        </div>
+
+        <table class="table table-striped">
+
+
+            {% for item in project_id_details %}
+
+            <form action="{% url 'add_user_to_project' item.pm_id %}" method="post">
+
+                {% endfor %}
+
+
+
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputEmail4"></label>
+
+                    </div>
+                    <!-- <div class="form-group col-md-6">
+                                    <label for="inputPassword4">Password</label>
+                                    <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+                                </div> -->
+                </div>
+                <div class="form-row">
+
+                    <div class="form-group col-md-4">
+                        <label for="inputState"></label>
+                        <select id="inputState" class="form-control" name="user_id">
+                            <option value="0" selected>choose user here</option>
+                            {% for user in all_user %}
+                            <div class="dropdown-divider"></div>
+                            <option value="{{ user.id }}">
+
+
+                                {{user.first_name}}&nbsp{{user.last_name}}&nbsp&nbsp
+                                &nbsp&nbsp
+                                  {{user.email}}
+                                  &nbsp&nbsp
+
+                                &nbsp&nbsp
+                                {{user.groups.all.0.name}}
+
+
+
+                            </option>
+                            {% endfor %}
+
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Add User</button>
+            </form>
+        </table>
+
+        <table class="table table-striped">
+
+
+            <tr>
+                <th>
+                    sl no
+                </th>
+              
+
+                <th>user_name</th>
+                <th>first_name</th>
+                <th>last_name</th>
+                <th>email</th>
+                <th>user type</th>
+                <th>remove user</th>
+            </tr>
+
+            {% for item in users_of_project %}
+            <tr>
+                <td>{{forloop.counter|add:0}}</td>
+
+                <td>{{ item.pu_user.username }}</td>
+                <td>{{ item.pu_user.first_name }}</td>
+                <td>{{ item.pu_user.last_name }}</td>
+                <td>{{ item.pu_user.email }}</td>
+                <td>{{item.pu_user.groups.all.0.name}}</td>
+                <td>
+                    <form action="{% url 'remove_user_from_project' item.pu_id %}" method="post"
+                        onsubmit="return confirm('Do you really want to remove this user?');">
+                        {% csrf_token %}
+
+                        {% for itemtwo in project_id_details %}
+                        <input type="hidden" class="form-control" id="project_id" value="{{itemtwo.pm_id}}"
+                            name="project_id">
+
+                        {% endfor %}
+
+                        <button type="submit" class="btn btn-danger mb-2">remove user</button>
+                    </form>
+                </td>
+
+            </tr>
+            {% endfor %}
+
+
+
+        </table>
+
+
+
+
+
+
+
+    </div>
+</main>
+
+{% endblock %}

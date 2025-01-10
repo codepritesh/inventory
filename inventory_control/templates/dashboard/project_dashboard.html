@@ -1,0 +1,62 @@
+{% extends 'index.html' %}
+{% load static %}
+
+
+{% block content %}
+
+
+<main style="font-size:small;">
+
+    <div class="container-fluid">
+        <h1 class="mt-4 title"> Project Dashboard</h1>
+
+            {% if request.user.is_superuser %}
+<div class="col-xl-3 col-md-6">
+<a class="small text-white stretched-link" href="{%url 'project_view'%}">
+<div class="card bg-danger text-white mb-4">
+<div class="card-body">
+<div class="row">
+<div class="col-8">
+<h1 class="headingTwo">Projects</h1>
+</div>
+<div class="col-4"> <span class="icn"> <i class="fab fa-accusoft"></i> </span> </div>
+</div>
+</div>
+</div>
+</a>
+</div>
+
+
+<div class="col-xl-3">
+    <div class="card mb-4">
+        <div class="card-body shadow">
+        <div class="cardtop">
+       <span class="icnn"> <i class="fas fa-user"></i> </span>
+        <h2>  Project user</h2>
+        </div>
+
+
+        <a class="normal" href="{% url 'create_new_project'%}" role="button">create a new project</a>
+        <a class="normal" href="{% url 'project_view' %}" role="button">view project </a>
+        <!-- <a class="normal" href="{% url 'admin_watching_user' %}" role="button">project users details</a> -->
+
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+    {% endif %}
+</main>
+
+
+
+
+
+
+
+
+{% endblock %}

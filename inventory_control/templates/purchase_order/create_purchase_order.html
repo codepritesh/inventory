@@ -1,0 +1,75 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+
+<main>
+    <div class="container-fluid">
+        <h1 class="mt-4">Purchase order</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">create purchase order new</li>
+
+        </ol>
+
+        <table class="table table-striped">
+
+
+            <form action="{% url 'create_purchase_order'%}" method="post">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="product_name">Product Name</label>
+                        <input type="text" class="form-control" id="product_name" placeholder="" name="product_name"
+                            required>
+                    </div>
+                    <!-- <div class="form-group col-md-6">
+                                <label for="inputPassword4">Password</label>
+                                <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+                            </div> -->
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputCity">product catagory</label>
+                        <input type="text" class="form-control" id="product_catagory" name="product_catagory" required>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label class="mb-1" for="product_unit">product unit</label>
+                        <select class="form-control" class="form-select" aria-label="Default select example"
+                            name="product_unit" id="select_unit_id" required>
+                            <option value="">None</option>
+
+                            <option value="meter">meter</option>
+                            <option value="pieces">pieces</option>
+                            <option value="gram">gram</option>
+                            <option value="kilo">kilo</option>
+
+
+                        </select>
+
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="inputZip">product amount</label>
+                        <input type="number" class="form-control" id="product_amount" name='product_amount' required>
+                    </div>
+                </div>
+
+
+                <button type="submit" class="btn btn-primary">create po</button>
+            </form>
+        </table>
+
+
+
+
+
+
+
+    </div>
+</main>
+
+
+
+
+
+
+{% endblock %}

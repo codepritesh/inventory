@@ -1,0 +1,311 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+
+<main>
+
+    <div class="container-fluid">
+
+        <h1 class="mt-4"> Project Dashboard</h1>
+
+        <ol class="breadcrumb mb-4">
+
+            <li class="breadcrumb-item active">Project Dashboard</li>
+
+        </ol>
+
+        <table class="table table-striped">
+
+            {% for item in project_id %}
+
+                  <div class="progress" style="height: 40px;">
+                    <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">project created</div>
+                    {% if item.pm_all_product_available == True %}
+                     <div class="progress-bar bg-warning" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">project started</div>
+                     <div class="progress-bar bg-info" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"> project on progress</div>
+
+                    {% endif %}
+
+                       {% if item.pm_is_complete == True %}
+                         <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"> project completed</div>
+
+                       {% endif %}
+
+
+
+                   </div>
+
+
+
+            <h2 class="">Projects Name: {{ item.pm_project_name }} </h2>
+
+
+            <div>
+            {% if request.user.is_superuser %}
+              {% if  item.pm_all_product_available == True %}
+              <a class="btn btn-warning " href="#" role="button">project started</a>
+              {% else %}
+
+                <a class="btn btn-danger " href="#" role="button">project not started</a>
+                    {% endif %}
+
+
+
+
+
+
+<div class="btn-toolbar float-right" role="toolbar" aria-label="Toolbar with button groups">
+  <div class="btn-group mr-2" role="group" aria-label="First group">
+    <a class="btn btn-success " href="{% url 'start_project' item.pm_id %}" role="button" onclick="return confirm('Is all product available,Are you sure?')">start project</a>
+
+
+  </div>
+  <div class="btn-group mr-2" role="group" aria-label="Second group">
+    <a class="btn btn-info " href="{% url 'purchase_order_view' %} " role="button" >create purchase order</a>
+
+
+  </div>
+
+</div>
+
+  {% else %}
+    {% endif %}
+    <div class="btn-group mr-2" role="group" aria-label="Third group">
+      <a class="btn btn-danger" href="{% url 'product_assigned_to'  item.pm_id %} " role="button" >product assigned to</a>
+        <a class="btn btn-warning" href="{% url 'install_product_toproject'  item.pm_id %} " role="button" >Install product to project </a>
+
+    </div>
+
+          {% if groupid == 2 %}
+          <a class="btn btn-info float-right" href="{% url 'prm_scan_and_receive' item.pm_id%}" role="button" >Scan and receive products</a>
+
+
+          {% else %}
+            {% endif %}
+
+            {% if groupid == 3 %}
+            <a class="btn btn-info float-right" href="{% url 'pru_scan_and_receive' item.pm_id%}" role="button" >Scan and receive products</a>
+
+
+            {% else %}
+              {% endif %}
+
+
+
+    </div>
+
+            <tr>
+                <th>id</th>
+
+                <th>project name</th>
+                <th>state</th>
+                <th>district</th>
+                <th>city</th>
+
+                {% if request.user.is_superuser %}
+
+                  <th>Details notes</th>
+                {% else %}
+                  {% endif %}
+
+                <th>Is complete</th>
+                <th>created_at</th>
+                <th>last_modified_on</th>
+
+                  {% if request.user.is_superuser %}
+                <th>
+                    <a class="page-link" href="{% url 'add_user_to_project' item.pm_id %}">
+                        Add User
+                    </a>
+                </th>
+                <th>
+                    <a class="page-link" href="{% url 'add_product_to_project' item.pm_id %}">
+                        Add Product
+                    </a>
+                </th>
+                {% else %}
+                  {% endif %}
+
+
+
+
+
+
+            </tr>
+            <tr>
+                <td>{{ item.pm_id }}</td>
+                <td>{{ item.pm_project_name }}</td>
+                <td>{{ item.pm_state }}</td>
+                <td>{{ item.pm_district }}</td>
+                <td>{{ item.pm_city }}</td>
+                {% if request.user.is_superuser %}
+
+                <td>  <a class="btn btn-info" title="{{item.pm_description}}" href="{% url 'details_of_project_history' item.pm_id %}">
+                    Details
+                  </a>
+                </td>
+                {% else %}
+                  {% endif %}
+                <td>{{ item.pm_is_complete }}</td>
+                <td>{{ item.pm_created_at }}</td>
+                <td>{{ item.pm_last_modified_on }}</td>
+
+
+
+            </tr>
+            {% endfor %}
+
+
+
+        </table>
+        <table class="table table-striped">
+
+            <h2>Users Details</h2>
+
+
+            <tr>
+
+                <th>slno</th>
+
+                <th>id</th>
+
+                <th>user_name</th>
+                <th>first_name</th>
+                <th>last_name</th>
+                <th>email</th>
+                <th>User Type</th>
+
+            </tr>
+
+            {% for item in Projects_Users_data %}
+            <tr>
+                <td>{{forloop.counter|add:0}}</td>
+                <td>{{ item.pu_id }}</td>
+                <td>{{ item.pu_user.username }}</td>
+                <td>{{ item.pu_user.first_name }}</td>
+                <td>{{ item.pu_user.last_name }}</td>
+                <td>{{ item.pu_user.email }}</td>
+                <td>{{item.pu_user.groups.all.0.name}}</td>
+
+
+            </tr>
+            {% endfor %}
+
+
+
+        </table>
+
+
+        <table class="table table-striped">
+
+            <h2>Products</h2>
+
+            <tr>
+                <th>sl no</th>
+                <th>id</th>
+                <th>product_name</th>
+                <th>product_catagory</th>
+                <th>product_amount</th>
+                <th>product_unit</th>
+                <!-- <th>last scanned from</th>
+                <th>last scanned by</th> -->
+
+
+            </tr>
+            {% for item in Projects_Product_data %}
+
+            <tr>
+                <td>{{forloop.counter|add:0}}</td>
+                <td>{{ item.pp_id }}</td>
+                <td>{{ item.pp_product_id.pt_product_name }}</td>
+                <td>{{ item.pp_product_id.pt_product_catagory.acpc_catagory_name }}</td>
+                <td>{{ item.pp_product_amount }}</td>
+              <td>{{ item.pp_product_id.pt_product_unit }}</td>
+
+
+
+
+
+
+
+            </tr>
+            {% endfor %}
+
+
+
+        </table>
+
+
+        <table class="table table-striped">
+          <h2>Created Po</h2>
+
+
+            <tr>
+
+                <th>sl no</th>
+
+                <th>Details</th>
+
+
+
+
+                <th>order_submited</th>
+                <th>order_purchased</th>
+
+                <th>created_at</th>
+                <!-- <th>is_active</th> -->
+                <th>last_modified_on</th>
+                <th>last_modified_by</th>
+            </tr>
+            {% for item in projects_po %}
+            <tr>
+
+                <td>{{forloop.counter}}</td>
+
+                <td>
+                    <a class="page-link" href="{% url 'po_details_view' item.acpo_id %}">
+                        view </a>
+
+
+                </td>
+
+
+
+
+                {% if item.acpo_order_submited == True %}
+                <td class="table-success">YES</td>
+
+                {% else %}
+                <td class="table-danger">NO</td>
+
+                {% endif %}
+
+                {% if item.acpo_order_purchased == True %}
+                <td class="table-success">YES</td>
+                <td>{{ item.acpo_order_submited }}</td>
+
+                {% else %}
+                <td class="table-danger">NO</td>
+
+                {% endif %}
+
+                <td>{{ item.acpo_created_at }}</td>
+                <!-- <td>{{ item.acpo_is_active }}</td> -->
+                <td>{{ item.acpo_last_modified_on }}</td>
+                <td>{{ item.acpo_last_modified_by }}</td>
+
+            </tr>
+            {% endfor %}
+        </table>
+          {% for item in project_id %}
+
+        <a class="btn btn-primary noprintbtn"  href="{% url 'project_report' item.pm_id %}" " href="">Project Report</a>
+          {% endfor %}
+
+
+
+    </div>
+</main>
+
+{% endblock %}

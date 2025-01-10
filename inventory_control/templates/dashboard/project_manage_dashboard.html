@@ -1,0 +1,45 @@
+{% extends 'index.html' %}
+{% load static %}
+
+
+{% block content %}
+
+
+<main style="font-size:small;">
+
+    <div class="container-fluid">
+        <h1 class="mt-4 title"> Project Manager Dashboard</h1>
+
+            {% if request.user.is_superuser %}
+
+
+
+<div class="col-xl-3">
+    <div class="card mb-4">
+        <div class="card-body shadow">
+
+        <div class="cardtop">
+       <span class="icnn"> <i class="fas fa-book-reader"></i> </span>
+        <h2>Project manager</h2>
+        </div>
+        <a class="normal" href="{% url 'create_sitemanager'%}" role="button">create project manager</a>
+        <a class="normal"   href="{%url 'view_sitemanager'%}" role="button">view project manager</a>
+        <a class="normal" href="{% url 'admin_watching_project_manager' %}" role="button">project manager details</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+    {% endif %}
+</main>
+
+
+
+
+
+
+
+
+{% endblock %}

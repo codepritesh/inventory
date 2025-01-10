@@ -1,0 +1,343 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+
+
+
+<main>
+    <div class="container">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-7">
+                <div>
+
+
+
+                    <canvas id="canvas" class="d-none"></canvas>
+                    <audio id="snapSound" src="audio/snap.wav" preload="auto"></audio>
+                </div>
+
+                <a href="{% url 'add_new_product' %}" class="btn btn-warning btn-sm active float-right" role="button"
+                    aria-pressed="true">change
+                    to
+                    single product </a>
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <a href="#" class="btn btn-primary btn-sm active float-right" role="button" aria-pressed="true">Add
+                        persible or fractional product</a>
+
+                    <div class="card-header">
+
+
+
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url 'add_new_product_fractional'%}" method="post">
+                            {% csrf_token %}
+
+
+                            <div class="form-row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="inputFirstName"></label>
+                                        <video class="embed-responsive-item" id="webcam" autoplay playsinline
+                                            width="200" height="150"></video>
+
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+
+                                        <a href="#" id="open_scaner" class="btn btn-success btn-sm small mb-1 "
+                                            role="button" aria-pressed="true">capture</a>
+
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+
+                                        <label id='server_image_id' class="small mb-1" for="inputLastName"></label>
+                                        <img id="image_capture" src="" alt="">
+
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="inputFirstName">Warranty Information</label>
+                                        <input class="form-control py-4" id="inputFirstName" type="text"
+                                            name="waranty_info" placeholder="Warranty Information"
+                                            value="{{first_name}}" required />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="inputLastName">Serial number</label>
+                                        <input class="form-control py-4" id="inputLastName" type="text"
+                                            name="serial_number" placeholder="Serial number" value="{{last_name}}"
+                                            required />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="inputEmailAddress">Brand Details</label>
+                                        <input class="form-control py-4" id="inputEmailAddress" type="text"
+                                            name="brand_details" aria-describedby="emailHelp"
+                                            placeholder="Brand Details" value="{{email}}" required />
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="inputLastName">Vender / Brought From</label>
+                                        <input class="form-control py-4" id="inputLastName" type="text"
+                                            name="brought_from" placeholder="Brought From" value="{{username}}"
+                                            required />
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="inputPassword">PO Details</label>
+                                        <input class="form-control py-4" id="inputPassword" type="text"
+                                            name="po_details" placeholder="PO Details" required />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="input_catagory">Category</label>
+                                        <input class="form-control py-4" id="input_catagory" type="text"
+                                            name="input_catagory_name" placeholder="Category" required />
+                                        <input id="catagory_id" type="hidden" name="catagory_id" value="0" />
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="product_names">product name</label>
+                                        <input class="form-control py-4" id="product_names" type="text"
+                                            name="product_names" aria-describedby="emailHelp"
+                                            placeholder="Brand Details" value=" " required />
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="product_names">product catagory</label>
+                                        <select class="form-control " id='catagory_select' class="form-select"
+                                            aria-label="Default select example">
+                                            {% for item in product_cat %}
+                                            <option value="{{item.id}}">{{item.catagory_name}}</option>
+                                            {% endfor %}
+                                        </select>
+
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="form-row">
+
+
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="product_unit">product unit</label>
+                                        <select class="form-control" id='product_unit' class="form-select"
+                                            aria-label="Default select example" name="product_unit">
+
+                                            <option value="meter">meter</option>
+                                            <option value="piece">pieces</option>
+                                            <option value="meter">gram</option>
+
+
+                                        </select>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="product_quantity">product quantity</label>
+                                        <input class="form-control" id="product_quantity" type="number"
+                                            name="product_quantity" aria-describedby="emailHelp"
+                                            placeholder="product quantity" value=" " required />
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="card-footer text-center">
+                                <button type="submit" class="btn btn-primary ">add product</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+
+{% endblock %}
+
+{% block js_content %}
+
+<script type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
+
+<script>
+
+    const webcamElement = document.getElementById('webcam');
+    const canvasElement = document.getElementById('canvas');
+    const snapSoundElement = document.getElementById('snapSound');
+    const webcam = new Webcam(webcamElement, 'user', canvasElement, snapSoundElement);
+
+
+
+    $(document).ready(function () {
+
+        webcam.start()
+            .then(result => {
+                console.log("webcam started");
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
+
+
+        $("#open_scaner").click(function () {
+            let picture = webcam.snap();
+
+            $("#image_capture").attr("src", picture);
+            console.log(picture);
+            getdata_from_image(picture);
+
+
+            function getdata_from_image(picture) {
+
+                var postdata = {
+                    'opstype': 'getdata_from_image',
+                    'image_data': picture
+
+                }
+                $.ajax({
+                    type: 'POST',
+                    url: '{% url "chckproduct_presence" %}',
+                    dataType: 'json',
+                    data: { data: JSON.stringify(postdata) },
+
+
+                    success: function (data) {
+                        console.log(data);
+                        if (data.barcodeData == 'na') {
+
+                            $("#server_image_id").text("barcode is not recognised");
+
+
+                        }
+                        else {
+                            $("#server_image_id").text("barcode data:" + data.barcodeData);
+
+
+
+                        }
+                        src_data = "data:image/png;base64," + data.image_rec_base64;
+                        server_imagedata = data.image_rec_base64;
+
+                        $("#image_capture").attr("src", src_data);
+                    },
+
+
+                    error: function (err) {
+                        alert('something wrong error happened');
+                        console.log(err);
+                    }
+                });
+
+            }
+
+
+
+        });
+    });
+
+    // webcam.start()
+    //     .then(result => {
+    //         console.log("webcam started");
+    //     })
+    //     .catch(err => {
+    //         console.log(err);
+    //     });
+
+    // let picture = webcam.snap();
+    // document.querySelector('#download-photo').href = picture;
+
+
+
+</script>
+<script>
+
+
+
+
+    $(document).ready(function () {
+
+
+        // $("#catagory_select").click(function () {
+
+
+        //     getdata_from_image(picture);
+
+
+
+
+
+
+        // });
+
+
+
+        $("#catagory_select").change(function () {
+
+            var select_text = $("#catagory_select option:selected").text();
+
+            var select_val = $("#catagory_select").val();
+            console.log(select_text, select_val);
+            $("#input_catagory").val(select_text);
+            $("#catagory_id").val(select_val);
+
+
+        });
+
+
+
+
+    });
+
+
+
+
+</script>
+
+{% endblock %}

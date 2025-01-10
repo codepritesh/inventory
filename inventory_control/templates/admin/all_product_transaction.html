@@ -1,0 +1,101 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<main>
+    <div class="container-fluid">
+        <h1 class="mt-4 title">All product transections view</h1>
+<div class="info">
+        <div class="row">
+            <div class="col-6 text-left">
+                Total data found:{{ totaldata }}
+            </div>
+            <div class="col-6 text-right">
+                showing data :{{ showingdata }}
+            </div>
+        </div>
+</div>
+<div class="table-responsive">
+
+        <table class="table table-striped table-sm" style="font-size:0.8em">
+
+
+            <tr>
+
+                <!-- <th>QR_CODE</th> -->
+
+                <th>sl no</th>
+                <th>product name</th>
+                <th>product catagory</th>
+                <th>product type</th>
+
+                <th>product unit</th>
+                <th>credit amount</th>
+                <th>debit amount</th>
+                <th>description</th>
+                <th>created at</th>
+
+                <th>transection with</th>
+
+
+
+            </tr>
+
+
+            {% for item in query_results %}
+            <tr>
+
+
+                <td>{{forloop.counter|add:pagedata_starting}}</td>
+                <td>{{ item.apt_product_name.pt_product_name }}</td>
+                <td>{{ item.apt_product_name.pt_product_catagory.acpc_catagory_name }}</td>
+                <td>{{ item.apt_product_name.pt_product_catagory.acpc_fra_or_single }}</td>
+                <td>{{ item.apt_product_name.pt_product_unit }}</td>
+
+                {% if item.apt_credit_amount != 0 %}
+                <td class="table-success">{{ item.apt_credit_amount }}</td>
+
+                {% else %}
+                <td>{{ item.apt_credit_amount }}</td>
+
+                {% endif %}
+
+                {% if item.apt_debit_amount != 0 %}
+                <td class="table-danger">{{ item.apt_debit_amount }}</td>
+
+                {% else %}
+                <td>{{ item.apt_debit_amount }}</td>
+
+                {% endif %}
+
+
+                <td >{{ item.apt_description }}</td>
+                <td >{{ item.apt_created_at }}</td>
+
+                <td>{{ item.apt_credited_or_debited_with }}</td>
+
+
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+        <nav aria-label="...">
+            <ul class="pagination pagination-sm justify-content-center">
+
+                <li class="page-item"><a class="page-link" href="{% url 'all_product_transaction_pagination_view' prev_pagenumber user_id %}">
+                        pre
+                    </a></li>
+                <li class="page-item active"><a class="page-link" href="#">{{ curent_page }}</a></li>
+                <li class="page-item"><a class="page-link" href="{% url 'all_product_transaction_pagination_view' next_page_number user_id %}">
+                        next </a></li>
+            </ul>
+        </nav>
+    </div>
+</main>
+
+
+
+
+{% endblock %}

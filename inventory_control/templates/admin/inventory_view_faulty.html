@@ -1,0 +1,317 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block css_content %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css" type="text/css">
+
+
+{% endblock %}
+
+{% block content %}
+
+
+<main>
+    <div class="container-fluid ">
+        <h1 class="mt-4">Faulty product View</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">Faulty product View</li>
+
+        </ol>
+
+        <div class="row justify-content-between">
+            <div class="col-4">
+                Total data found:{{ totaldata }}
+            </div>
+            <div class="col-4">
+                showing data :{{ showingdata }}
+            </div>
+
+            <div class="col-4">
+
+                      <form class="" action="{% url 'lattes_qrcode' 'manual_print' %}" method="post">
+                        {% csrf_token %}
+
+                        <div class="form-row align-items-center">
+                          <div class="col-auto">
+
+                            <input type="text" class="form-control mb-2" id="inlineFormInput" name="print_code" placeholder="print_code">
+                          </div>
+
+
+                          <div class="col-auto">
+                            <button type="submit" class="btn btn-primary mb-2">print</button>
+                          </div>
+                        </div>
+                      </form>
+
+            </div>
+        </div>
+
+
+            <div class="row justify-content-center">
+        <div class="col-auto">
+        <table class="table table-striped table-sm table-responsive text-center " style="font-size:0.8em">
+
+
+  <form class="" action="{% url 'view_faulty_product_pagination' curent_page %}" method="post" id="myform_invent">
+
+    {% csrf_token %}
+
+            <tr>
+
+
+              <th>sl no</th>
+
+                <th>QR CODE</th>
+                <!-- <th>id</th> -->
+
+
+
+
+                <th> <p>Product Name</p>
+
+
+                                  <input type="text" id="product_name_search_ID" name="product_name_search"
+                          value="{{product_name_search}}" size="10">
+
+                </th>
+                <th><p>Product Catagory</p>
+
+
+                  <input type="text" id="Product_catagory_search_ID" name="Product_catagory_search"
+                          value="{{Product_catagory_search}}" size="10">
+              </th>
+                <!-- <th>product location</th> -->
+                <!--<th>last_scaned_by</th>
+                <th>last_scaned_from</th> --->
+                <th>product movment details</th>
+                <th>
+                  <p>qr code</p>
+                  <input type="text" id="Product_qr_code_availale" name="Product_qr_code_availale"
+                        value="{{Product_qr_code_availale}}" size="10">
+
+                </th>
+                <th>
+                  <p>Created On</p>
+
+                  <!-- <input type="text" id="Product_qr_code_availale" name="Product_qr_code_availale" size="10"> -->
+                  <div class="block" style="font-size:0.8em">
+
+                    <div class="row">
+                      <label class="col" for="from_date_id">From</label><input  class="col"  type="date" id="from_date_id" name="from_date" value="{{from_date}}" min="2018-01-01" max="2030-12-31" >
+
+                    </div>
+
+                    <div class="row">
+                      <label class="col" for="to_date_id">To</label><input  class="col" type="date" id="to_date_id" name="to_date" value="{{to_date}}" min="2018-01-01" max="2030-12-31" >
+
+                    </div>
+
+                  </div>
+                </th>
+                <th>
+                  <p>print code</p>
+                  <input type="text" id="Product_print_code_availale" name="Product_print_code_availale"
+                  value="{{Product_print_code_availale}}"  size="10">
+
+
+                </th>
+
+                    <!--
+
+                <th>qr_image_path</th>
+                <th>qr_image_name</th>
+                <th>created_at</th>
+                <th>is_defective</th>
+                <th>is_active</th>
+                <th>last_modified_on</th>
+                <th>last_modified_by</th> -->
+
+            </tr>
+            <input id="pagenumber_form" class="float-left" placeholder="pagenumber" type="number" name="page_number" min="1" value="{{curent_page}}" required>
+
+            <input class="float-right" type="submit" name="submit_search" value="search" >
+
+            </form>
+
+            {% for item in query_results %}
+            <tr>
+
+                <td>{{forloop.counter|add:pagedata_starting}}</td>
+                {% with '/'|add:item.acpqm_qr_image_path|add:item.acpqm_qr_image_name as image_static %}
+
+
+                <td class = "image_print_class text-center" id="image_td_{{ item.acpqm_id }}" >
+                  <img  class="row" id="image_{{ item.acpqm_id }}" src="{{image_static }}" alt="Responsive image" style="height: 25mm; width: 25mm;"/>
+
+                  <a class="btn btn-primary " href="/static/assets/pdf/{{item.acpqm_uniq_id}}.pdf" target="_blank">print</a>
+
+
+
+                </td>
+                {% endwith %}
+
+
+
+
+                <!-- <td>{{ item.acpqm_id }}</td> -->
+
+
+
+                <td><a class="page-link" href="{% url 'view_product_by_id' item.acpqm_product_master_id.acpm_id %}">
+                      {{ item.acpqm_product_master_id.acpm_product_name }}</a></td>
+
+                <td>{{ item.acpqm_product_master_id.acpm_product_catagory.acpc_catagory_name }}</td>
+
+              <!-- <td>{{ item.acpqm_product_location }}</td> -->
+                <!--   <td>{{ item.acpqm_last_scaned_by }}</td>
+                <td>{{ item.acpqm_last_scaned_from }}</td> -->
+                <td>{{ item.acpqm_product_movment_details }}</td>
+                 <td>{{ item.acpqm_uniq_id }}</td>
+                 <td>{{ item.acpqm_created_at }}</td>
+                  <td>{{ item.acpqm_print_uniq_id }}</td>
+                <!--<td>{{ item.qr_image_path }}</td>
+                <td>{{ item.qr_image_name }}</td>
+                <td>{{ item.acpqm_created_at }}</td>
+                <td>{{ item.acpqm_is_defective }}</td>
+                <td>{{ item.acpqm_is_active }}</td>
+                <td>{{ item.acpqm_last_modified_on }}</td>
+                <td>{{ item.acpqm_last_modified_by }}</td> -->
+
+            </tr>
+            {% endfor %}
+        </table>
+              </div>
+        </div>
+        <nav aria-label="...">
+            <ul class="pagination pagination-sm justify-content-center">
+
+                <li class="page-item"><a class="page-link" href="#" id="previous_page_number">
+                        pre
+                    </a></li>
+
+                <li class="page-item active"><a class="page-link" href="#">{{ curent_page }}</a></li>
+                <li class="page-item"><a class="page-link"
+                      href="#"  id="next_page_number">
+                        next </a></li>
+            </ul>
+        </nav>
+    </div>
+</main>
+
+
+
+
+
+
+{% endblock %}
+
+
+
+{% block js_content %}
+
+<script>
+// function printDiv(divName) {
+// var printContents = document.getElementById(divName).innerHTML;
+// var originalContents = document.body.innerHTML;
+//
+// document.body.innerHTML = printContents;
+//
+// window.print();
+//
+// document.body.innerHTML = originalContents;
+// }
+//
+//
+// $('.image_print_class').click(function() {
+// console.log(this.id);
+// printDiv(this.id);
+//
+// });
+</script>
+
+
+
+<script>
+  $(document).ready(function () {
+  //your code here
+  $( function() {
+  var availableTags_product_name = [
+     {% for product_name in product_name_list %}
+         "{{product_name.acpm_product_name}}",
+     {% endfor %}
+       ];
+    $( "#product_name_search_ID" ).autocomplete({
+      source: availableTags_product_name
+    });
+  } );
+
+
+  $( function() {
+    var availableTags_cat_name=[
+       {% for cat in product_cat_list %}
+           "{{cat.acpc_catagory_name}}",
+       {% endfor %}
+   ];
+    $( "#Product_catagory_search_ID" ).autocomplete({
+      source: availableTags_cat_name
+    });
+  } );
+
+
+  $( function() {
+    var available_qr_code =[
+       {% for qr in product_qr_list %}
+           "{{qr.acpqm_uniq_id}}",
+       {% endfor %}
+   ];
+    $( "#Product_qr_code_availale" ).autocomplete({
+      source: available_qr_code
+    });
+  } );
+
+
+
+
+
+
+  $( function() {
+    var available_print_code=[
+       {% for print_list in product_print_list %}
+           "{{print_list.acpqm_print_uniq_id}}",
+       {% endfor %}
+   ];
+    $( "#Product_print_code_availale" ).autocomplete({
+      source: available_print_code
+    });
+  } );
+
+
+
+});
+
+
+$('#previous_page_number').click(function(){
+    var pagenumber = $('#pagenumber_form').val();
+    if (pagenumber == 1){
+      pagenumber = Number(pagenumber);
+    }
+    else{
+      pagenumber = Number(pagenumber) - 1 ;
+
+    }
+    $('#pagenumber_form').val(pagenumber);
+    $("#myform_invent").submit();
+});
+
+
+$('#next_page_number').click(function(){
+    var pagenumber = $('#pagenumber_form').val();
+    pagenumber = Number(pagenumber) + 1 ;
+    $('#pagenumber_form').val(pagenumber);
+    $("#myform_invent").submit();
+});
+
+ </script>
+
+{% endblock %}

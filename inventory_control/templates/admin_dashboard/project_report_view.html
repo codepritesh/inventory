@@ -1,0 +1,359 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+
+<main id="div_print">
+
+    <div class="container-fluid">
+
+        <h4 class="mt-4"> Project Report</h4>
+
+
+
+        <table class="table table-striped table-sm table-bordered" style="font-size:0.8em; border-collapse: separate;">
+            <tr>
+
+
+                <th>project name</th>
+                <th>state</th>
+                <th>district</th>
+                <th>city</th>
+
+
+
+                <th>Is complete</th>
+                <th>created_at</th>
+                <th>last_modified_on</th>
+
+            </tr>
+            {% for item in project_id %}
+            <tr>
+
+                <td>{{ item.pm_project_name }}</td>
+                <td>{{ item.pm_state }}</td>
+                <td>{{ item.pm_district }}</td>
+                <td>{{ item.pm_city }}</td>
+
+                <td>{{ item.pm_is_complete }}</td>
+                <td>{{ item.pm_created_at }}</td>
+                <td>{{ item.pm_last_modified_on }}</td>
+            </tr>
+            <tr>
+              <td colspan="8">
+              {{item.pm_description}}
+              </td>
+            </tr>
+
+            {% endfor %}
+
+
+
+        </table>
+        <table class="table table-striped table-sm table-bordered" style="font-size:0.8em; border-collapse: separate;">
+
+            <h6>Users Details</h6>
+
+
+            <tr>
+
+                <th>slno</th>
+
+
+
+                <th>user_name</th>
+                <th>first_name</th>
+                <th>last_name</th>
+                <th>email</th>
+                <th>User Type</th>
+
+            </tr>
+
+            {% for item in Projects_Users_data %}
+            <tr>
+                <td>{{forloop.counter|add:0}}</td>
+
+                <td>{{ item.pu_user.username }}</td>
+                <td>{{ item.pu_user.first_name }}</td>
+                <td>{{ item.pu_user.last_name }}</td>
+                <td>{{ item.pu_user.email }}</td>
+                <td>{{item.pu_user.groups.all.0.name}}</td>
+
+
+            </tr>
+            {% endfor %}
+
+
+
+        </table>
+
+
+        <table class="table table-striped table-sm table-bordered" style="font-size:0.8em; border-collapse: separate;">
+
+            <h6>Products</h6>
+
+            <tr>
+                <th>sl no</th>
+
+                <th>product_name</th>
+                <th>product_catagory</th>
+                <th>product_amount</th>
+                <th>product_unit</th>
+                <!-- <th>last scanned from</th>
+                <th>last scanned by</th> -->
+
+
+            </tr>
+            {% for item in Projects_Product_data %}
+
+            <tr>
+                <td>{{forloop.counter|add:0}}</td>
+
+                <td>{{ item.pp_product_id.pt_product_name }}</td>
+                <td>{{ item.pp_product_id.pt_product_catagory.acpc_catagory_name }}</td>
+                <td>{{ item.pp_product_amount }}</td>
+              <td>{{ item.pp_product_id.pt_product_unit }}</td>
+            </tr>
+            {% endfor %}
+
+
+
+        </table>
+        <table class="table table-striped table-sm table-bordered" style="font-size:0.8em; border-collapse: separate;">
+
+              <h6>Products assigned to </h6>
+
+            <tr>
+                <th>sl no</th>
+
+                <th>product_name</th>
+                <th>product_catagory</th>
+                <th>product type</th>
+                <th>product_amount</th>
+                <th>product_unit</th>
+                <th>last scanned from</th>
+                <th>last scanned by</th>
+
+
+            </tr>
+            {% for item in assigned_product %}
+
+            <tr>
+                <td>{{forloop.counter|add:0}}</td>
+
+                <td>{{ item.ppa_product_id.acpm_product_name }}</td>
+                <td>{{ item.ppa_product_id.acpm_product_catagory.acpc_catagory_name }}</td>
+                <td>{{ item.ppa_product_id.acpm_product_catagory.acpc_fra_or_single }}</td>
+                <td>{{ item.ppa_product_amount }}</td>
+                <td>{{ item.ppa_product_id.acpm_product_unit }}</td>
+                <td>{{ item.ppa_last_scaned_from }}</td>
+                <td>{{ item.ppa_last_scaned_by }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <table class="table table-striped table-sm table-bordered" style="font-size:0.8em; border-collapse: separate;">
+          <h6>Products Installed </h6>
+            <tr>
+                <th>Sl no</th>
+                <th>Product Name</th>
+                <th>Product Catagory</th>
+                <th>Amount</th>
+
+                <th>Installed By</th>
+                <th>Installed On</th>
+                <th>Details</th>
+                <th>Image</th>
+
+            </tr>
+
+
+            {% for item in Projects_Product_Installed_product %}
+            <tr>
+
+
+                <td>{{ forloop.counter }}</td>
+                <td>{{ item.ppi_product_qr_detais.acpqm_product_master_id.acpm_product_name }}</td>
+
+                <td>{{item.ppi_product_qr_detais.acpqm_product_master_id.acpm_product_catagory.acpc_catagory_name}}</td>
+                <td>{{ item.ppi_amount }}</td>
+
+                <td>{{ item.ppi_installed_by }}</td>
+                <td>{{ item.ppi_created_at }}</td>
+                <td>{{ item.ppi_description }}</td>
+
+                {% with '/'|add:item.ppi_install_image_path|add:item.ppi_install_image_name as image_static %}
+
+
+                <td class = "image_print_class text-center" id="image_td_{{ item.ppi_id }}" >
+                  <a class="" href="/static/assets/instalation_img/{{item.ppi_install_image_name}}" target="_blank">
+                  <img  class="row" id="image_{{ item.ppi_id }}" src="{{image_static }}" alt="image not found" style="height: 25mm; width: 25mm;"/>
+
+                </a>
+
+                </td>
+                {% endwith %}
+
+
+
+
+            </tr>
+            {% endfor %}
+        </table>
+
+        {% for item in projects_po %}
+
+        <table class="table table-striped table-sm table-bordered" style="font-size:0.8em; border-collapse: separate;"
+          <h6>Created Po ID: {{ item.acpo_id}}</h6>
+
+
+
+            <tr>
+
+                <th>sl no</th>
+                <th>id</th>
+
+
+                <th>order_submited</th>
+                <th>order_purchased</th>
+
+                <th>created_at</th>
+                <!-- <th>is_active</th> -->
+                <th>last_modified_on</th>
+                <th>last_modified_by</th>
+            </tr>
+
+
+            <tr >
+
+                <td>{{forloop.counter}}</td>
+                  <td>{{item.acpo_id}}</td>
+
+                <!-- <td>
+                    <a class="page-link" href="{% url 'po_details_view' item.acpo_id %}">
+                        view </a>
+                </td> -->
+                {% if item.acpo_order_submited == True %}
+                <td class="table-success">YES</td>
+
+                {% else %}
+                <td class="table-danger">NO</td>
+
+                {% endif %}
+
+                {% if item.acpo_order_purchased == True %}
+                <td class="table-success">YES</td>
+                <td>{{ item.acpo_order_submited }}</td>
+
+                {% else %}
+                <td class="table-danger">NO</td>
+
+                {% endif %}
+
+                <td>{{ item.acpo_created_at }}</td>
+                <!-- <td>{{ item.acpo_is_active }}</td> -->
+                <td>{{ item.acpo_last_modified_on }}</td>
+                <td>{{ item.acpo_last_modified_by }}</td>
+
+            </tr>
+
+            {% for k,v in projects_po_dict.items %}
+                    {% if item.acpo_id == k %}
+
+
+
+
+                      <tr >
+                          <th>
+                              product sl no
+                          </th>
+                          <th>id</th>
+
+                          <th> name</th>
+                          <th> catagory</th>
+                          <th> unit</th>
+                          <th> amount</th>
+                          <th>purchased</th>
+                          <th>created_at</th>
+
+                          <th>last modified on</th>
+                          <th>last modified by</th>
+
+
+                      </tr>
+                      {% for x,y  in v.items %}
+
+
+
+
+                                            <tr>
+                                              <td>{{forloop.counter|add:0}}</td>
+                                              <td>{{ y.acpop_id }}</td>
+                                              <td>{{ y.acpop_product_name }}</td>
+                                              <td>{{ y.acpop_product_catagory }}</td>
+                                              <td>{{ y.acpop_product_unit }}</td>
+                                              <td>{{ y.acpop_product_amount }}</td>
+
+                                              {% if y.acpop_product_purchased == True %}
+                                              <td class="table-success">YES</td>
+
+
+                                              {% else %}
+                                              <td class="table-danger">NO</td>
+                                              {% endif %}
+
+
+                                              <td>{{ y.acpop_created_at }}</td>
+                                              <!-- <td>{{ item.acpop_is_active }}</td> -->
+                                              <td>{{ y.acpop_last_modified_on }}</td>
+                                              <td>{{ y.acpop_last_modified_by }}</td>
+
+
+                                              </tr>
+
+                                              {% endfor %}
+
+
+
+
+
+                  {% endif %}
+
+          {% endfor %}
+
+
+
+
+
+
+
+        </table>
+          {% endfor %}
+
+          <a class="btn btn-primary noprintbtn"  onClick="printdiv('div_print'); return false" href="">Print</a>
+    </div>
+</main>
+
+{% endblock %}
+
+{% block js_content %}
+
+
+<script language="javascript">
+               function printdiv(printpage)
+               {
+               var headstr = "<html><head><title></title></head><body>";
+               var footstr = "</body>";
+               var newstr = document.all.item(printpage).innerHTML;
+               var oldstr = document.body.innerHTML;
+               document.body.innerHTML = headstr+newstr+footstr;
+               window.print();
+               document.body.innerHTML = oldstr;
+
+               }
+           </script>
+
+
+
+
+{% endblock %}

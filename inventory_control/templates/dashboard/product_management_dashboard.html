@@ -1,0 +1,64 @@
+{% extends 'index.html' %}
+{% load static %}
+
+
+{% block content %}
+
+
+<main style="font-size:small;">
+
+    <div class="container-fluid">
+        <h1 class="mt-4 title"> Product Management</h1>
+
+            {% if request.user.is_superuser %}
+            <div class="col-xl-3 col-md-6">
+            <a class="text-white" href="#">
+            <div class="card bg-success text-white mb-4">
+            <div class="card-body">
+            <div class="row">
+            <div class="col-8">
+            <h6 class="headingTwo">Product Management</h6>
+            </div>
+            <div class="col-4"> <span class="icn"> <i class="fab fa-buffer"></i> </span> </div>
+            </div>
+            </div>
+            </div>
+            </a>
+            </div>
+
+
+            <div class="col-xl-3">
+                <div class="card mb-4">
+                    <div class="card-body shadow">
+                        <div class="cardtop">
+                   <span class="icnn"> <i class="fab fa-buffer"></i> </span>
+                    <h2> Product Management</h2>
+                    </div>
+
+
+                    <a class="normal"  href="{% url 'main_catagory_name_view'%}" role="button">Main Catagory</a>
+                    <a class="normal"  href="{% url 'sub_catagory_name_view'%}" role="button">Sub Catagory</a>
+                    <a class="normal"  href="{% url 'product_name_view'%}" role="button">Product</a>
+                    
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+    {% endif %}
+</main>
+
+
+
+
+
+
+
+
+{% endblock %}

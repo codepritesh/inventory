@@ -1,0 +1,99 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<main>
+    <div class="container-fluid">
+
+        <h1 class="mt-4 title">Projects</h1>
+        
+
+        <div class="row justify-content-between">
+            <div class="col-4 text-left">
+                Total data found:{{ totaldata }}
+            </div>
+             <div class="col-2 text-left">
+              <a class="btn btn-primary float-left" href="{% url 'project_manager_view_projects' user_id %}" role="button">lattest</a>
+            </div>
+            <div class="col-6 text-right">
+                showing data :{{ showingdata }}
+            </div>
+        </div>
+
+<div class="table-responsive"> 
+        <table class="table table-striped">
+            <tr>
+                <th>sl no</th>
+                <th>use id</th>
+                <th>projects id</th>
+                <th>project name</th>
+                <th>user name</th>
+                <th>group name</th>
+
+
+                <th>created_at</th>
+                <th>last_modified_on</th>
+                <th>last modified by</th>
+                  <th>details</th>
+
+
+
+
+
+
+            </tr>
+            <!-- pu_id = models.AutoField(auto_created=True, primary_key=True,)
+            pu_project_master_id = models.ForeignKey(
+                Project_Master, on_delete=models.CASCADE,)
+
+            pu_user = models.ForeignKey(User, on_delete=models.CASCADE,)
+            pu_group_id = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='projects_users_user_type')
+
+            pu_is_active = models.BooleanField(default=True)
+            pu_created_at = models.DateTimeField(auto_now_add=True)
+            pu_last_modified_on = models.DateTimeField(auto_now=True)
+            pp_last_modified_by = models.ForeignKey(
+                User, on_delete=models.CASCADE, related_name='%(class)s_last_modified_by') -->
+
+            {% for item in query_results %}
+            <tr>
+
+
+                <td>{{forloop.counter|add:pagedata_starting}}</td>
+                <td>{{ item.pu_id }}</td>
+                <td>{{ item.pu_project_master_id.pm_id }}</td>
+                <td>{{ item.pu_project_master_id.pm_project_name }}</td>
+
+
+                <td>{{ item.pu_user }}</td>
+                <td>{{ item.pu_group_id }}</td>
+                <td>{{ item.pu_created_at }}</td>
+                <td>{{ item.pu_last_modified_on }}</td>
+                <td>{{ item.pp_last_modified_by }}</td>
+
+                <td>
+                    <a class="page-link" href="{% url 'details_of_project' item.pu_project_master_id.pm_id %}"><i
+                            class="fas fa-edit"></i></a>
+
+                </td>
+
+
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+        <nav aria-label="...">
+            <ul class="pagination pagination-sm justify-content-center">
+
+                <li class="page-item"><a class="page-link" href="{% url 'project_manager_view_projects_pagination' prev_pagenumber user_id%}">
+                        pre
+                    </a></li>
+
+                <li class="page-item active"><a class="page-link" href="#">{{ curent_page }}</a></li>
+                <li class="page-item"><a class="page-link" href="{% url 'project_manager_view_projects_pagination' next_page_number user_id%}">
+                        next </a></li>
+            </ul>
+        </nav>
+    </div>
+</main>
+
+{% endblock %}

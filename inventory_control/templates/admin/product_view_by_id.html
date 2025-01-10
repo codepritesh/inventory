@@ -1,0 +1,150 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<main>
+    <div class="container-fluid">
+        <h1 class="mt-4">Product View</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">product View by id</li>
+
+        </ol>
+        <!--
+        <div class="row justify-content-between">
+            <div class="col-4">
+                Total data found:{{ totaldata }}
+            </div>
+            <div class="col-4">
+                showing data :{{ showingdata }}
+            </div>
+        </div> -->
+
+
+
+        <form class='well form-horizontal'>
+            {% for item in query_results %}
+
+
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">product id</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="{{item.acpm_id}}" value="{{item.acpm_id}}" disabled>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">product name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="{{item.acpm_product_name}}" value="{{item.acpm_product_name}}"disabled>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">product catagory</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="{{item.acpm_product_catagory.acpc_catagory_name}}" value="{{item.acpm_product_catagory.acpc_catagory_name}}" disabled>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">product main catagory</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="{{item.acpm_product_main_catagory.pmc_main_catagory_name}}" value="{{item.acpm_product_main_catagory.pmc_main_catagory_name}}" disabled>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">waranty info</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="{{item.acpm_waranty_info}}" value="{{item.acpm_waranty_info}}" disabled>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">serial number</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="{{item.acpm_serial_number}}" value="{{item.acpm_serial_number}}" disabled>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">brand_details</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="{{item.acpm_brand_details}}" value="{{item.acpm_brand_details}}" disabled>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">vender details</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="{{item.acpm_vender_details}}" value="{{item.acpm_vender_details}}" disabled>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">po details</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="{{item.acpm_po_details}}" value="{{item.acpm_po_details}}" disabled>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">product type</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="{{item.acpm_product_types}}" value="{{item.acpm_product_types}}" disabled>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">product unit</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="{{item.acpm_product_unit}}" value="{{item.acpm_product_unit}}" disabled>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">product amount</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="{{item.acpm_product_amount}}" value="{{item.acpm_product_amount}}" disabled>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">product description</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="{{item.acpm_product_description}}" value="{{item.acpm_product_description}}" disabled>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label"> created at</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="{{item.acpm_created_at}}" value="{{item.acpm_created_at}}" disabled>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label"> is_active</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="{{item.acpm_is_active}}" value="{{item.acpm_is_active}}" disabled>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">last modified on</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="{{item.acpm_last_modified_on}}" value="{{item.acpm_last_modified_on}}" disabled>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">last modified by</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="{{item.acpm_last_modified_by}}" value="{{item.acpm_last_modified_by}}" disabled>
+                </div>
+            </div>
+
+
+
+
+            {%endfor%}
+
+
+        </form>
+
+    </div>
+</main>
+
+
+
+
+
+
+{% endblock %}

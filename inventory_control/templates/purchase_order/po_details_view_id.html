@@ -1,0 +1,247 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+
+
+<main>
+    <div class="container-fluid">
+        <h1 class="mt-4">purchase order</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">Add product to purchase order: </li>
+
+            {% for item in purchase_order_row %}
+
+
+
+            <p> purchase order id :{{ item.acpp_id }} </p>
+
+            {% endfor %}
+        </ol>
+
+        <table class="table table-striped">
+
+
+            {% for item in purchase_order_row %}
+
+            <form action="{% url 'add_product_to_po' item.acpo_id %}" method="post">
+                {% endfor %}
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="product_name">Product Name</label>
+                        <input type="text" class="form-control" id="product_name" placeholder="" name="product_name"
+                            required>
+                    </div>
+                    <!-- <div class="form-group col-md-6">
+                                            <label for="inputPassword4">Password</label>
+                                            <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+                                        </div> -->
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="product_catagory">product catagory</label>
+                        <input type="text" class="form-control" id="product_catagory" name="product_catagory" required>
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label class="mb-1" for="product_unit">product unit</label>
+                        <select class="form-control" class="form-select" aria-label="Default select example"
+                            name="product_unit" id="select_unit_id" required>
+                            <option value="">None</option>
+
+                            <option value="meter">meter</option>
+                            <option value="pieces">pieces</option>
+                            <option value="gram">gram</option>
+                            <option value="kilo">kilo</option>
+
+
+                        </select>
+
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="inputZip">product amount</label>
+                        <input type="number" class="form-control" id="product_amount" name='product_amount' required>
+                    </div>
+                </div>
+
+
+                <button type="submit" class="btn btn-primary">add product</button>
+            </form>
+        </table>
+
+        <table class="table table-striped" id="product_table">
+            <thead>
+                {% for item in purchase_order_row %}
+                <tr>
+
+                    <th>
+                        purchase order id :{{ item.acpo_id }}
+
+
+                    </th>
+                </tr>
+
+
+                {% endfor %}
+            </thead>
+            <tbody>
+
+
+
+                <tr>
+                    <th>
+                        sl no
+                    </th>
+                    <th>id</th>
+
+                    <th> name</th>
+                    <th> catagory</th>
+                    <th> unit</th>
+                    <th> amount</th>
+                    <th>purchased</th>
+                    <th>created_at</th>
+                    <!-- <th>is_active</th> -->
+                    <th>last modified on</th>
+                    <th>last modified by</th>
+                    {% if request.user.is_superuser %}
+                    <th>remove product</th>
+                      {% endif %}
+
+                </tr>
+
+
+                {% for item in purchase_order_products %}
+                <tr>
+                    <td>{{forloop.counter|add:0}}</td>
+                    <td>{{ item.acpop_id }}</td>
+                    <td>{{ item.acpop_product_name }}</td>
+                    <td>{{ item.acpop_product_catagory }}</td>
+                    <td>{{ item.acpop_product_unit }}</td>
+                    <td>{{ item.acpop_product_amount }}</td>
+
+                    {% if item.acpop_product_purchased == True %}
+                    <td class="table-success">YES</td>
+
+
+                    {% else %}
+                    <td class="table-danger">NO</td>
+                    {% endif %}
+
+
+                    <td>{{ item.acpop_created_at }}</td>
+                    <!-- <td>{{ item.acpop_is_active }}</td> -->
+                    <td>{{ item.acpop_last_modified_on }}</td>
+                    <td>{{ item.acpop_last_modified_by }}</td>
+                    {% if request.user.is_superuser %}
+                    <td>
+
+                        <form action="{% url 'remove_product_from_po' item.acpop_id %}" method="post"
+                            onsubmit="return confirm('Do you really want to remove this product?');">
+                            {% csrf_token %}
+
+                            {% for itemtwo in purchase_order_row %}
+                            <input type="hidden" class="form-control" id="po_id" value="{{itemtwo.acpo_id}}"
+                                name="po_id">
+
+                            {% endfor %}
+
+                            <button type="submit" class="btn btn-danger">remove product</button>
+                        </form>
+                    </td>
+                      {% endif %}
+
+                </tr>
+
+                {% empty %}
+
+
+
+
+                {% endfor %}
+
+
+
+
+
+
+            </tbody>
+        </table>
+
+        {% if request.user.is_superuser %}
+
+        {% for item in purchase_order_row %}
+
+        {% if products_count != 0 %}
+
+        {% if item.acpo_order_submited == False %}
+
+        <form action="{% url 'create_purchase_order' %}" method="post"
+            onsubmit="return confirm('After submit you can not add product to this po?');">
+            {% csrf_token %}
+
+
+            <input type="hidden" class="form-control" id="po_id" value="{{item.acpo_id}}" name="po_id">
+
+
+
+            <button type="submit" class="btn btn-success mb-2">submit this po</button>
+        </form>
+
+        {% else %}
+        <button type="button" class="btn btn-danger mb-2">already submited</button>
+
+        <button type="button" class="btn btn-success mb-2" id="table_print">print</button>
+
+        {% endif %}
+        {% else %}
+
+        {% endif %}
+
+
+        {% endfor %}
+
+          {% endif %}
+
+
+
+
+
+
+
+    </div>
+</main>
+
+
+
+{% endblock %}
+
+
+{% block js_content %}
+<script>
+
+
+    function printData() {
+        var divToPrint = document.getElementById("product_table");
+        newWin = window.open("");
+        newWin.document.write(divToPrint.outerHTML);
+        newWin.print();
+        newWin.close();
+    }
+
+    $(document).ready(function () {
+        $('#table_print').click(function () {
+
+            printData();
+        });
+    });
+
+
+
+
+
+
+
+
+</script>
+
+{% endblock %}

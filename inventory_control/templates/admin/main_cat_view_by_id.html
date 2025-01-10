@@ -1,0 +1,73 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<main>
+    <div class="container-fluid">
+        <h4 class="mt-4">Main Catagory View</h4>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">Main Catagory Edit</li>
+
+        </ol>
+        <!--
+        <div class="row justify-content-between">
+            <div class="col-4">
+                Total data found:{{ totaldata }}
+            </div>
+            <div class="col-4">
+                showing data :{{ showingdata }}
+            </div>
+        </div> -->
+
+
+        {% for item in query_results %}
+        <form class='well form-horizontal' action="{% url 'main_catagory_name_by_id' item.pmc_id %}" method="post"  >
+            {% csrf_token %}           
+
+
+            <!-- <div class="form-group row">
+                <label for="input_main_id" class="col-sm-2 col-form-label">main catagory id</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="input_main_id" placeholder="{{item.pmc_id}}" value="{{item.pmc_id}}" disabled>
+                </div>
+            </div> -->
+            <div class="form-group row">
+                <label for="main_catagory_name" class="col-sm-2 col-form-label">Main Catagory Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="main_catagory_name" name="main_catagory_name" placeholder="{{item.pmc_main_catagory_name}}" value="{{item.pmc_main_catagory_name}}" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="main_cat_desc" class="col-sm-2 col-form-label">Description</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="main_cat_desc" name="main_cat_desc" placeholder="{{item.pmc_main_catagory_description}}" value="{{item.pmc_main_catagory_description}}" required>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="created_at" class="col-sm-2 col-form-label">Created At</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="created_at" placeholder="{{item.pmc_created_at}}" value="{{item.pmc_created_at}}" disabled>
+                </div>
+            </div>
+            <div class="form-group row">
+                
+                <div class="col-sm-3">
+                    <input type="submit" class="form-control btn btn-success " id="submit_id" >
+                </div>
+            </div>       
+
+
+        </form>
+        {%endfor%}
+
+    </div>
+</main>
+
+
+
+
+
+
+{% endblock %}

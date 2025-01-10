@@ -1,0 +1,121 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<main>
+    <div class="container-fluid">
+        <h1 class="mt-4">Project View detail </h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">project detail view </li>
+
+        </ol>
+        <!--
+        <div class="row justify-content-between">
+            <div class="col-4">
+                Total data found:{{ totaldata }}
+            </div>
+            <div class="col-4">
+                showing data :{{ showingdata }}
+            </div>
+        </div> -->
+
+
+        <!-- pm_id = models.AutoField(auto_created=True, primary_key=True,)
+          pm_project_name = models.TextField(max_length=5000, default=None)
+          pm_district = models.CharField(max_length=300, default=None, null=True)
+          pm_state = models.CharField(max_length=300, default=None, null=True)
+          pm_city = models.CharField(max_length=300, default=None, null=True)
+          pm_description = models.TextField(blank=True, null=True)
+          pm_is_active = models.BooleanField(default=True)
+          pm_all_product_available = models.BooleanField(default=False)
+          pm_is_complete = models.BooleanField(default=False)
+          pm_created_at = models.DateTimeField(auto_now_add=True)
+          pm_last_modified_on = models.DateTimeField(auto_now=True)
+          pm_last_modified_by = models.ForeignKey(
+              User, on_delete=models.CASCADE, related_name='%(class)s_last_modified_by') -->
+
+
+
+        <form class='well form-horizontal'>
+            {% for item in query_results %}
+
+
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">project id</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="{{item.pm_id}}" value="{{item.pm_id}}" disabled>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">project name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="{{item.pm_project_name}}" value="{{item.pm_project_name}}"disabled>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">project district</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="{{item.pm_district}}" value="{{item.pm_district}}" disabled>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">project state</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="{{item.pm_state}}" value="{{item.pm_state}}" disabled>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">project city</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="{{item.pm_city}}" value="{{item.pm_city}}" disabled>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">Is project started</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="{{item.pm_all_product_available}}" value="{{item.pm_all_product_available}}" disabled>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">Is complete</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="{{item.pm_is_complete}}" value="{{item.pm_is_complete}}" disabled>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">project creation on</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="{{item.pm_created_at}}" value="{{item.pm_created_at}}" disabled>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPassword" class="col-sm-2 col-form-label">last modified by </label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="inputPassword" placeholder="{{item.pm_last_modified_by}}" value="{{item.pm_last_modified_by}}" disabled>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="exampleFormControlTextarea1" class="col-sm-2 col-form-label">Project history</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="20"  placeholder="{{item.pm_description}}" value="{{item.pm_description}}" disabled></textarea>
+            </div>
+
+
+
+            {%endfor%}
+
+
+        </form>
+
+    </div>
+</main>
+
+
+
+
+
+
+{% endblock %}

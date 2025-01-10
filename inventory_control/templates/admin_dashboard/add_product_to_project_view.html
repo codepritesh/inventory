@@ -1,0 +1,160 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+<!-- {"project_id_details": project_details_by_id,
+                 "products_of_project": Projects_Product_data,
+                 "all_product": all_product} -->
+<main>
+    <div class="container-fluid">
+        <h1 class="mt-4">Add product for project</h1>
+
+        <ol class="breadcrumb ">
+
+
+            <li class="breadcrumb-item active"> </li>
+            {% for item in project_id_details %}
+            <p class="btn btn-success  active"> {{ item.pm_project_name }} </p>
+
+            <div class='float-right'>
+              <a href="{% url 'details_of_project' item.pm_id %}" class="btn btn-info" role="button" aria-pressed="true">
+                  project Dashboard </a>
+                    </div>
+
+
+        </ol>
+
+
+              {% endfor %}
+
+              <a href="{% url 'add_new_product_if_not_available' %}" class="btn btn-info float-right" role="button" aria-pressed="true" target="_blank">
+                  Product name not available ! create one </a>
+
+
+
+
+
+        <table class="table table-striped">
+
+
+            {% for item in project_id_details %}
+
+            <form action="{% url 'add_product_to_project' item.pm_id %}" method="post">
+
+                {% endfor %}
+
+
+
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputEmail4"></label>
+
+                    </div>
+                    <!-- <div class="form-group col-md-6">
+                                    <label for="inputPassword4">Password</label>
+                                    <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+                                </div> -->
+                </div>
+                <div class="form-row">
+
+                    <div class="form-group col-md-3">
+                        <label for="input_product_name">chose product</label>
+                        <select id="input_product_name" class="form-control" name="product_id">
+                            <option value="0" selected>chose product name.... </option>
+                            {% for product in all_product %}
+                            <div class="dropdown-divider"></div>
+                            <option value="{{ product.pt_id }}" title="product name : {{ product.pt_product_catagory.acpc_catagory_name }}
+                            type : {{ product.pt_product_catagory.acpc_fra_or_single }}
+                            unit : {{ product.pt_product_unit }}
+                            available : {{ product.pt_product_amount }}" >
+                                {{ product.pt_product_name }}_{{ product.pt_product_amount }}
+
+                            </option>
+                            {% endfor %}
+
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-3">
+                        <label for="inputCity">Amount</label>
+                        <input type="number" class="form-control" id="product_amount_id" name="product_amount" required>
+                    </div>
+
+
+                </div>
+
+
+                <button type="submit" class="btn btn-primary">Add product</button>
+            </form>
+        </table>
+
+        <table class="table table-striped">
+            <p>Products</p>
+            <tr>
+                <th>sl no</th>
+                <th>id</th>
+                <!-- <th>qrcode</th> -->
+                <th>product_name</th>
+                <th>product_catagory</th>
+                <th>product type</th>
+                <th>product_amount</th>
+                <th>amount unit</th>
+                <th>remove product</th>
+
+
+            </tr>
+            {% for item in products_of_project %}
+            <tr>
+                <td>{{forloop.counter|add:0}}</td>
+
+
+
+                <td>{{ item.pp_id }}</td>
+
+
+                <td>{{ item.pp_product_id.pt_product_name }}</td>
+                <td>{{ item.pp_product_id.pt_product_catagory.acpc_catagory_name }}</td>
+                <td>{{ item.pp_product_id.pt_product_catagory.acpc_fra_or_single }}</td>
+                <td>{{ item.pp_product_amount }}</td>
+                <td>{{ item.pp_product_id.pt_product_unit }}</td>
+                <td>
+                    <form action="{% url 'remove_product_from_project' item.pp_id %}" method="post"
+                        onsubmit="return confirm('Do you really want to remove this product from project?');">
+                        {% csrf_token %}
+
+                        {% for itemtwo in project_id_details %}
+                        <input type="hidden" class="form-control" id="project_id" value="{{itemtwo.pm_id}}"
+                            name="project_id">
+
+                        {% endfor %}
+
+                        <button type="submit" class="btn btn-danger mb-2">remove product</button>
+                    </form>
+                </td>
+
+
+
+
+            </tr>
+            {% endfor %}
+
+
+
+        </table>
+        {% for item in project_id_details %}
+
+        <a href="{% url 'validate_po' item.pm_id %}" class="btn btn-info float-right" role="button" aria-pressed="true" target="_blank">
+            Validate PO </a>
+
+            {% endfor %}
+
+
+
+
+
+
+    </div>
+</main>
+
+{% endblock %}

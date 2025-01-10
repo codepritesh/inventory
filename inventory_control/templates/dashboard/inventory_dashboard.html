@@ -1,0 +1,68 @@
+{% extends 'index.html' %}
+{% load static %}
+
+
+{% block content %}
+
+
+<main style="font-size:small;">
+
+    <div class="container-fluid">
+        <h1 class="mt-4 title"> Project Dashboard</h1>
+
+            {% if request.user.is_superuser %}
+            <div class="col-xl-3 col-md-6">
+            <a class="text-white" href="{%url 'inventory_view'%}">
+            <div class="card bg-success text-white mb-4">
+            <div class="card-body">
+            <div class="row">
+            <div class="col-8">
+            <h1 class="headingTwo">Inventory</h1>
+            </div>
+            <div class="col-4"> <span class="icn"> <i class="fab fa-buffer"></i> </span> </div>
+            </div>
+            </div>
+            </div>
+            </a>
+            </div>
+
+
+            <div class="col-xl-3">
+                <div class="card mb-4">
+                    <div class="card-body shadow">
+                        <div class="cardtop">
+                   <span class="icnn"> <i class="fab fa-buffer"></i> </span>
+                    <h2> Add Inventory</h2>
+                    </div>
+
+
+                    <a class="normal"  href="{% url 'inventory_report'%}" role="button">Inventory Report</a>
+                    <a class="normal"  href="{% url 'add_new_product'%}" role="button">Add single product</a>
+                    <a class="normal" href="{% url 'add_new_product_fractional' %}" role="button">Add fractional product</a>
+                    <a class="normal" href="{% url 'fra_product_from_invent'%}" role="button">Create fractional from inventory</a>
+                    <a class="normal"  href="{% url 'receive_unused_product'%}" role="button">Receive Unused Product</a>
+                    <a class="normal" href="{% url 'receive_faulty_product'%}" role="button">Receive Faulty Product</a>
+                    <a class="normal" href="{% url 'view_faulty_product'%}" role="button">View Faulty Product</a>                     
+                    <a class="normal" href="{% url 'purchase_order_view'%}" role="button">Purchase Order</a>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+    {% endif %}
+</main>
+
+
+
+
+
+
+
+
+{% endblock %}

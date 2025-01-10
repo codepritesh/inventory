@@ -1,0 +1,89 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+
+<main>
+    <div class="container-fluid">
+        <h1 class="mt-4 title">Purchase order
+
+            <a href="{% url 'purchase_order_view' %}" class="btn btn-success active float-right" role="button"
+            aria-pressed="true">refresh</a>
+        </h1>
+        <a href="{% url 'create_purchase_order' %}" class="btn btn-info active float-right" role="button"
+        aria-pressed="true">creat a new
+    purchase order</a>
+    <p>view all purchase order</p>
+    <div class="table-responsive"> 
+        <table class="table table-striped">
+            <tr>
+                <th>sl no</th>
+
+                <th>Details</th>
+
+                <th>po_no</th>
+                <th>Project Details</th>
+
+                <th>order_submited</th>
+                <th>order_purchased</th>
+
+                <th>created_at</th>
+                <!-- <th>is_active</th> -->
+                <th>last_modified_on</th>
+                <th>last_modified_by</th>
+            </tr>
+            {% for item in query_results %}
+            <tr>
+                <td>{{forloop.counter|add:pagedata_starting}}</td>
+                <td>
+                    <a class="page-link" href="{% url 'po_details_view' item.acpo_id %}">
+                    view </a>
+                </td>
+
+                <td>{{ item.acpo_id }}</td>
+                <td>  <a class="page-link" href="{% url 'details_of_project' item.acpo_project_master.pm_id %}"> {{ item.acpo_project_master.pm_project_name}} </a></td>
+
+                {% if item.acpo_order_submited == True %}
+                <td class="table-success">YES</td>
+
+                {% else %}
+                <td class="table-danger">NO</td>
+
+                {% endif %}
+
+                {% if item.acpo_order_purchased == True %}
+                <td class="table-success">YES</td>
+                <td>{{ item.acpo_order_submited }}</td>
+
+                {% else %}
+                <td class="table-danger">NO</td>
+
+                {% endif %}
+
+                <td>{{ item.acpo_created_at }}</td>
+                <!-- <td>{{ item.acpo_is_active }}</td> -->
+                <td>{{ item.acpo_last_modified_on }}</td>
+                <td>{{ item.acpo_last_modified_by }}</td>
+
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <nav aria-label="...">
+        <ul class="pagination pagination-sm justify-content-center">
+
+            <li class="page-item"><a class="page-link"
+                href="{% url 'purchase_order_view_pagination' prev_pagenumber %}">
+                pre
+            </a></li>
+
+            <li class="page-item active"><a class="page-link" href="#">{{ curent_page }}</a></li>
+            <li class="page-item"><a class="page-link"
+                href="{% url 'purchase_order_view_pagination' next_page_number %}">
+            next </a></li>
+        </ul>
+    </nav>
+</div>
+</main>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+
+<main>
+    <div class="container-fluid">
+        <h1 class="mt-4">Iteam</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">Iteam create</li>
+        </ol>
+        <table class="table table-striped">
+            <form action="{% url 'item_create'%}" method="post">
+                {% csrf_token %}
+                {{ form.as_table }}
+                <input type="submit" value="Submit">
+            </form>
+        </table>
+    </div>
+</main>
+
+{% endblock %}

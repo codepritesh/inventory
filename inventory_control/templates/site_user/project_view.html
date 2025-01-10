@@ -1,0 +1,86 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<main>
+    <div class="container-fluid text-center" >
+
+        <h1 class="mt-4">Projects
+        </h1>
+
+
+
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">Projects view</li>
+
+        </ol>
+        <a class="btn btn-primary float-left" href="{% url 'project_user_view_projects' %}" role="button">lattest</a>
+
+        <div class="row justify-content-between">
+            <div class="col-4">
+                Total data found:{{ totaldata }}
+            </div>
+            <div class="col-4">
+                showing data :{{ showingdata }}
+            </div>
+        </div>
+
+
+
+        <table class="table  table-hover  table-sm ">
+            <tr>
+                <th>sl no</th>
+                <th>Project name</th>
+                <th>project Created date</th>
+                <th>details</th>
+
+            </tr>
+
+
+            {% for item in query_results %}
+            <tr class='clickable-row' data-href="{% url 'details_of_project' item.pu_project_master_id.pm_id %}">
+
+
+                <td>{{forloop.counter|add:pagedata_starting}}</td>
+                <td>{{ item.pu_project_master_id.pm_project_name }}</td>
+                <td>{{ item.pu_created_at }}</td>
+                <td>
+                    <a class="page-link" href="{% url 'details_of_project' item.pu_project_master_id.pm_id %}"><i
+                            class="fas fa-edit"></i></a>
+
+                </td>
+
+            </tr>
+            {% endfor %}
+        </table>
+        <nav aria-label="...">
+            <ul class="pagination pagination-sm justify-content-center">
+
+                <li class="page-item"><a class="page-link" href="{% url 'project_user_view_projects_pagination' prev_pagenumber %}">
+                        pre
+                    </a></li>
+
+                <li class="page-item active"><a class="page-link" href="#">{{ curent_page }}</a></li>
+                <li class="page-item"><a class="page-link" href="{% url 'project_user_view_projects_pagination' next_page_number %}">
+                        next </a></li>
+            </ul>
+        </nav>
+    </div>
+</main>
+
+{% endblock %}
+
+
+
+{% block js_content %}
+<script type="text/javascript">
+
+  jQuery(document).ready(function($) {
+      $(".clickable-row").click(function() {
+          window.location = $(this).data("href");
+      });
+  });
+
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+
+<main>
+    <div class="container-fluid">
+        <h1 class="mt-4">vender</h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">vender view</li>
+
+        </ol>
+
+        <div class="row justify-content-between">
+            <div class="col-4">
+                Total data found:{{ totaldata }}
+            </div>
+            <div class="col-4">
+                showing data :{{ showingdata }}
+            </div>
+        </div>
+
+
+
+        <table class="table table-striped">
+            <tr>
+
+                <th>id</th>
+                <th>sl no</th>
+                <th>vender_name</th>
+                <th>address_line1</th>
+                <th>address_line2</th>
+                <th>address_line3</th>
+                <th>pincode</th>
+                <th>city</th>
+                <th>district</th>
+                <th>state</th>
+                <th>country</th>
+                <th>vender_manager_name</th>
+                <th>contact_number</th>
+                <th>created_at</th>
+                <th>is_active</th>
+
+            </tr>
+
+            {% for item in query_results %}
+            <tr>
+
+                <td>{{ item.id }}</td>
+                <td>{{forloop.counter|add:pagedata_starting}}</td>
+
+                <td>{{ item.vender_name }}</td>
+                <td>{{ item.address_line1 }}</td>
+                <td>{{ item.address_line2 }}</td>
+                <td>{{ item.address_line3 }}</td>
+                <td>{{ item.pincode }}</td>
+                <td>{{ item.city }}</td>
+                <td>{{ item.district }}</td>
+                <td>{{ item.state }}</td>
+                <td>{{ item.country }}</td>
+                <td>{{ item.vender_manager_name }}</td>
+                <td>{{ item.vender_manager_contact_number }}</td>
+                <td>{{ item.created_at }}</td>
+                <td>{{ item.is_active }}</td>
+
+            </tr>
+            {% endfor %}
+        </table>
+        <nav aria-label="...">
+            <ul class="pagination pagination-sm justify-content-center">
+
+                <li class="page-item"><a class="page-link" href="{% url 'vender_view_pagination' prev_pagenumber %}">
+                        pre
+                    </a></li>
+
+                <li class="page-item active"><a class="page-link" href="#">{{ curent_page }}</a></li>
+                <li class="page-item"><a class="page-link" href="{% url 'vender_view_pagination' next_page_number %}">
+                        next </a></li>
+            </ul>
+        </nav>
+    </div>
+</main>
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<main>
+    <div class="container-fluid">
+
+        <h1 class="mt-4">Installed product
+
+        </h1>
+        <ol class="breadcrumb mb-4">
+            <li class="breadcrumb-item active">installed product view</li>
+
+        </ol>
+
+        {% if status == 0 %}
+        <a class="btn btn-danger"  role="button" >Till now no product installed  </a>
+        <a class="btn btn-success" href="{% url 'install_one_product_toproject'  project_id %} " role="button" >Add Installed Product </a>
+
+              {% else %}
+
+
+        <a class="btn btn-success" href="{% url 'install_one_product_toproject'  project_id %} " role="button" >Add Installed Product </a>
+
+        {% endif %}
+
+        <table class="table table-striped">
+            <tr>
+                <th>Sl no</th>
+                <th>Product Name</th>
+                <th>Product Catagory</th>
+                <th>Amount</th>
+
+                <th>Installed By</th>
+                <th>Installed On</th>
+                <th>Details</th>
+                <th>Image</th>
+
+            </tr>
+
+
+            {% for item in installed_product %}
+            <tr>
+
+
+                <td>{{ forloop.counter }}</td>
+                <td>{{ item.ppi_product_qr_detais.acpqm_product_master_id.acpm_product_name }}</td>
+
+                <td>{{item.ppi_product_qr_detais.acpqm_product_master_id.acpm_product_catagory.acpc_catagory_name}}</td>
+                <td>{{ item.ppi_amount }}</td>
+
+                <td>{{ item.ppi_installed_by }}</td>
+                <td>{{ item.ppi_created_at }}</td>
+                <td>{{ item.ppi_description }}</td>
+
+                {% with '/'|add:item.ppi_install_image_path|add:item.ppi_install_image_name as image_static %}
+
+
+                <td class = "image_print_class text-center" id="image_td_{{ item.ppi_id }}" >
+                  <a class="" href="/static/assets/instalation_img/{{item.ppi_install_image_name}}" target="_blank">
+                  <img  class="row" id="image_{{ item.ppi_id }}" src="{{image_static }}" alt="Responsive image" style="height: 25mm; width: 25mm;"/>
+
+                </a>
+
+                </td>
+                {% endwith %}
+
+
+
+
+            </tr>
+            {% endfor %}
+        </table>
+
+    </div>
+</main>
+
+{% endblock %}

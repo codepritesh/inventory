@@ -1,0 +1,83 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block content %}
+
+
+<main>
+    <div class="container-fluid">
+        <h1 class="mt-4 title">All products amount</h1>
+<div class="info">
+        <div class="row ">
+            <div class="col-6 text-left">
+                Total data:{{ totaldata }}
+            </div>
+            <div class="col-6 text-right">
+                Showing data :{{ showingdata }}
+            </div>
+        </div>
+
+</div>
+<div class="table-responsive">
+        <table class="table table-striped text-center" style="font-size:0.8em" >
+
+
+            <tr>
+
+
+                <th>sl no</th>
+                <th>product name</th>
+                <th>product sub catagory</th>
+                <th>product main catagory</th>
+                <th>product type</th>
+                <th>product unit</th>
+                <th>product amount</th>
+
+                <th>created at</th>
+
+
+
+
+            </tr>
+
+            {% for item in query_results %}
+            <tr>
+
+
+
+
+                <td>{{forloop.counter|add:pagedata_starting}}</td>
+                <td><a class="page-link" href="{% url 'product_trans_by_id' item.pt_id user_id %}">{{ item.pt_product_name }}</a></td>
+                <td>{{ item.pt_product_catagory.acpc_catagory_name }}</td>
+                <td>{{ item.pt_product_main_catagory.pmc_main_catagory_name }}</td>
+                <td>{{ item.pt_product_catagory.acpc_fra_or_single }}</td>
+                <td>{{ item.pt_product_unit }}</td>
+                <td class="table-success" >{{ item.pt_product_amount }}</td>
+
+                <td>{{ item.pt_created_at }}</td>
+
+
+
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+        <nav aria-label="...">
+            <ul class="pagination pagination-sm justify-content-center">
+
+                <li class="page-item"><a class="page-link" href="{% url 'product_transection_pagination_view' prev_pagenumber user_id %}">
+                        pre
+                    </a></li>
+
+                <li class="page-item active"><a class="page-link" href="#">{{ curent_page }}</a></li>
+                <li class="page-item"><a class="page-link" href="{% url 'product_transection_pagination_view' next_page_number user_id %}">
+                        next </a></li>
+            </ul>
+        </nav>
+    </div>
+</main>
+
+
+
+
+{% endblock %}

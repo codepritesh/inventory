@@ -1,0 +1,236 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+
+<main>
+
+    <div class="container-fluid text-center">
+
+      <a href="{% url 'view_sell' %}" class="btn btn-warning float-left" role="button" aria-pressed="true">
+          view sell here </a>
+        <a href="{% url 'create_direct_sell_user' %}" class="btn btn-warning float-right" role="button" aria-pressed="true">
+              create direct sell user </a>
+
+        <h1 class="mt-4"> Details of sell ID: {{ sell_id }}</h1>
+
+        <ol class="breadcrumb mb-4">
+
+            <li class="breadcrumb-item active">Details of sell Id: {{ sell_id }}</li>
+
+        </ol>
+
+        <table class="table table-striped">
+
+            {% for item in sell_details %}
+
+
+                  <div class="progress" style="height: 40px;">
+                    <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">sell created</div>
+                    {% if item.ds_is_complete == False %}
+                    <div class="progress-bar bg-warning" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">scan and add product to sell</div>
+
+
+                    {% endif %}
+
+                       {% if item.ds_is_complete == True %}
+                       <div class="progress-bar bg-warning" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">product added to sell</div>
+                       <div class="progress-bar bg-info" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">product submited</div>
+                         <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">sell completed</div>
+
+                       {% endif %}
+
+
+
+                   </div>
+
+                   {% comment %}
+
+
+
+            <h2 class="">Projects Name: {{ item.pm_project_name }} </h2>
+
+
+            <div>
+            {% if request.user.is_superuser %}
+              {% if  item.pm_all_product_available == True %}
+              <a class="btn btn-warning " href="#" role="button">project started</a>
+              {% else %}
+
+                <a class="btn btn-danger " href="#" role="button">project not started</a>
+                    {% endif %}
+
+
+
+
+
+
+<div class="btn-toolbar float-right" role="toolbar" aria-label="Toolbar with button groups">
+  <div class="btn-group mr-2" role="group" aria-label="First group">
+    <a class="btn btn-success " href="{% url 'start_project' item.pm_id %}" role="button" onclick="return confirm('Is all product available,Are you sure?')">start project</a>
+
+
+  </div>
+  <div class="btn-group mr-2" role="group" aria-label="Second group">
+    <a class="btn btn-info " href="{% url 'purchase_order_view' %} " role="button" >create purchase order</a>
+
+
+  </div>
+
+</div>
+
+  {% else %}
+    {% endif %}
+    <div class="btn-group mr-2" role="group" aria-label="Third group">
+      <a class="btn btn-danger" href="{% url 'product_assigned_to'  item.pm_id %} " role="button" >product assigned to</a>
+
+    </div>
+
+          {% if groupid == 2 %}
+          <a class="btn btn-info float-right" href="{% url 'prm_scan_and_receive' item.pm_id%}" role="button" >Scan and receive products</a>
+
+
+          {% else %}
+            {% endif %}
+
+            {% if groupid == 3 %}
+            <a class="btn btn-info float-right" href="{% url 'pru_scan_and_receive' item.pm_id%}" role="button" >Scan and receive products</a>
+
+
+            {% else %}
+              {% endif %}
+
+
+              {% endcomment %}
+
+
+
+    </div>
+
+              <tr>
+                  <th>id</th>
+                  <th>sl no</th>
+                  <th>company name</th>
+                  <th>VAT/GST number</th>
+                  <th>Order number</th>
+                  <th>Is active</th>
+                  <th>created_at</th>
+                  <th>last_modified_on</th>
+
+              </tr>
+
+            <tr>
+              <td>{{ item.ds_id }}</td>
+              <td>{{forloop.counter}}</td>
+              <td>{{ item.ds_customer_details.cd_company_name }}</td>
+              <td>{{ item.ds_customer_details.cd_vat_gst_number }}</td>
+              <td>{{ item.ds_customer_details.cd_order_number }}</td>
+              <td>{{ item.ds_is_active }}</td>
+              <td>{{ item.ds_created_at }}</td>
+              <td>{{ item.ds_last_modified_on }}</td>
+
+
+
+            </tr>
+
+
+
+
+        </table>
+
+
+        <table class="table table-striped">
+          <h4>
+            products added for direct sell
+          </h4>
+            <a class="btn btn-info float-right" href="{% url 'scan_and_add_product_to_sell' item.ds_id %}" role="button" >Scan and add products to this sell </a>
+              {% endfor %}
+
+
+          <tr>
+              <th> slno </th>
+                <th>id</th>
+                <th>qr_details</th>
+                <th>product name</th>
+                <th>product type</th>
+                <th>product catagory</th>
+                <th>amount</th>
+                <th>created at</th>
+                <th>last modified on</th>
+                <th>Remove</th>
+
+            </tr>
+
+            {% for item in direct_sell_product %}
+            <tr>
+
+              <td>{{forloop.counter}}</td>
+
+                <td>{{ item.cp_id }}</td>
+
+                <td>{{ item.cp_product_qr_detais.acpqm_id }}</td>
+                <td>{{ item.cp_product_qr_detais.acpqm_product_master_id.acpm_product_name }}</td>
+                <td>{{ item.cp_product_qr_detais.acpqm_product_master_id.acpm_product_types }}</td>
+                <td>{{ item.cp_product_qr_detais.acpqm_product_master_id.acpm_product_catagory.acpc_catagory_name }}</td>
+                <td>{{ item.cp_amount }}</td>
+                <td>{{ item.cp_created_at }}</td>
+                <td>{{ item.cp_last_modified_on }}</td>
+
+                {% for item2 in sell_details %}
+                {% if item2.ds_is_complete == False %}
+
+                <td>
+                    <a class="page-link" href="{% url 'remove_product_from_sell' ds_id=sell_id cp_id=item.cp_id %}"><i
+                            class="far fa-trash-alt"></i></a>
+
+
+
+                </td>
+                {% else %}
+                {% endif %}
+
+                {% endfor %}
+
+
+            </tr>
+            {% endfor %}
+        </table>
+
+        {% for item3 in sell_details %}
+          {% if item3.ds_is_complete == False %}
+
+
+              <form  action="{% url 'submit_direct_sell' sell_id %}" class="form-inline float-right" method="post" >
+                {% csrf_token %}
+
+              <div class="form-group mx-sm-3 mb-2">
+                <label for="inputState"></label>
+                <select id="inputState" class="form-control" name="direct_sell_user">
+                    <option value="0" selected>choose direct sell user</option>
+                    {% for user in direct_sell_user %}
+                    <div class="dropdown-divider"></div>
+                    <option value="{{ user.id }}">
+
+                        {{user.first_name}}&nbsp{{user.last_name}}&nbsp&nbsp
+                        &nbsp&nbsp
+                          {{user.email}}
+                    </option>
+                    {% endfor %}
+
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary mb-2">  submit this sell</button>
+            </form>
+
+            {% else %}
+              <button type="button" class="btn btn-primary mb-2 float-right">  sell is submited </button>
+
+              {% endif %}
+
+              {% endfor %}
+
+
+    </div>
+</main>
+
+{% endblock %}

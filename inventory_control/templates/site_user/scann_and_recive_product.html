@@ -1,0 +1,585 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+
+<main>
+    <div class="container">
+
+        <div class="row justify-content-center">
+
+            <div class="col-lg-7">
+                <div>
+
+                    <canvas id="canvas" class="d-none"></canvas>
+
+                </div>
+
+                <!-- <a href="{% url 'add_new_product' %}" class="btn btn-warning btn-sm active float-right" role="button"
+                    aria-pressed="true">change
+                    to
+                    single product </a> -->
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <a href="#" class="btn btn-primary btn-sm active float-right" role="button" aria-pressed="true">scann and recive product</a>
+
+                    <div class="card-header">
+
+                    </div>
+                    <div class="card-body">
+                        <form action="{% url 'pru_scan_and_receive' project_id %}" method="post">
+                            {% csrf_token %}
+
+
+                            <div class="form-row">
+
+                                <div class="form-group">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <div class="custom-file">
+                                                <input id="imageFile" name="imageFile" type="file"
+                                                    class="imageFile custom-file-input form-control" accept="image/*"
+                                                    capture />
+                                                <label class="custom-file-label" for="capture">Choose file</label>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="col-md-6">
+
+
+                                        <div class="form-group">
+                                            <button id='scan_button' type="button"
+                                                class="btn btn-primary ">check</button>
+                                        </div>
+
+
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <label id='server_image_id' class="small mb-1" for="inputLastName"></label>
+
+                                            <img id="image_capture" src="" alt="" class="img-thumbnail">
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                              <div class="form-row">
+                                  <!--
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="small mb-1" for="inputFirstName">Warranty Information</label>
+                                            <input class="form-control py-4" id="warenty_info" type="text"
+                                                name="waranty_info" placeholder="Warranty Information"
+                                                value="{{first_name}}" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="small mb-1" for="inputLastName">Serial number</label>
+                                            <input class="form-control py-4" id="serial_number" type="text"
+                                                name="serial_number" placeholder="Serial number" value="{{last_name}}"
+                                                required />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="small mb-1" for="inputEmailAddress">Brand Details</label>
+                                            <input class="form-control py-4" id="brand_details" type="text"
+                                                name="brand_details" aria-describedby="emailHelp"
+                                                placeholder="Brand Details" value="{{email}}" required />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="small mb-1" for="inputLastName">Vender / Brought From</label>
+                                            <input class="form-control py-4" id="brought_from" type="text"
+                                                name="brought_from" placeholder="Brought From" value="{{username}}"
+                                                required />
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="small mb-1" for="inputPassword">PO Details</label>
+                                            <input class="form-control py-4" id="po_details" type="text"
+                                                name="po_details" placeholder="PO Details" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="small mb-1" for="input_catagory">Category</label>
+                                            <input class="form-control py-4" id="input_catagory" type="text"
+                                                name="input_catagory_name" placeholder="Category" required />
+                                            <input id="catagory_id" type="hidden" name="catagory_id" value="0" />
+                                            <input id="long" type="hidden" name="longitude" value="0" />
+                                            <input id="lat" type="hidden" name="latitude" value="0" />
+                                            <input id="barcode_details" type="hidden" name="barcode_details"
+                                                value="0" />
+                                            <input id="barcode_type" type="hidden" name="barcode_type" value="0" />
+
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="small mb-1" for="product_names">product name</label>
+                                            <input class="form-control" id="product_names" type="text"
+                                                name="product_names" aria-describedby="emailHelp"
+                                                placeholder="Brand Details" value=" " required />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="small mb-1" for="catagory_select">product catagory</label>
+                                            <select class="form-control" id='catagory_select' class="form-select"
+                                                aria-label="Default select example">
+                                                {% for item in product_cat %}
+                                                <option value="{{item.acpc_id}}">{{item.acpc_catagory_name}}</option>
+                                                {% endfor %}
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                                -->
+
+                                <div class="form-row">
+
+
+
+                                    <div class="col-md-4">
+                                        <div class="form-group" class="unit_id">
+                                            <label class="small mb-1" for="product_unit">product qr code</label>
+                                            <input class="form-control" id="product_qr_code" type="text"
+                                                name="product_qr_code" aria-describedby="emailHelp"
+                                                placeholder="product QR code" value="" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group" class="unit_id">
+                                            <label class="small mb-1" for="product_receiving_location">receiving location</label>
+                                            <input class="form-control" id="product_receiving_location" type="text"
+                                                name="product_receiving_location" aria-describedby="emailHelp"
+                                                placeholder="Eg. Bhubaneswar" value="" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label class="small mb-1" for="product_quantity">product quantity</label>
+
+                                            <input class="form-control" id="product_quantity" type="number"
+                                                name="product_quantity" aria-describedby="emailHelp"
+                                                placeholder="product quantity" value="0" required />
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+
+
+                            </div>
+                            <div class="card-footer text-center">
+                                <button type="submit" class="btn btn-primary ">recive product</button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+
+{% endblock %}
+
+{% block js_content %}
+
+<script type="text/javascript" src="https://unpkg.com/webcam-easy/dist/webcam-easy.min.js"></script>
+<script>
+
+
+    function getdata_from_image(picture) {
+
+        var postdata = {
+            'opstype': 'getdata_from_image',
+            'image_data': picture
+
+        }
+        console.log(postdata);
+        $.ajax({
+            type: 'POST',
+            url: '{% url "chckproduct_presence" %}',
+            dataType: 'json',
+            data: { data: JSON.stringify(postdata) },
+
+
+            success: function (data) {
+
+                if (data.barcodeData == 'na') {
+                    $("#barcode_type").val(data.barcodeType);
+                    $("#barcode_details").val('not_recognised');
+
+                    $("#server_image_id").text("barcode is not recognised");
+
+
+                }
+                else {
+                    $("#barcode_type").val(data.barcodeType);
+                    $("#server_image_id").text("barcode data:" + data.barcodeData);
+                    $("#product_qr_code").val(data.barcodeData);
+
+                    if (data.barcodeType != 'na') {
+                        $("#barcode_details").val(data.barcodeData);
+
+                    }
+                    $("#barcode_details").val(data.barcodeData);
+
+
+
+                }
+                src_data = "data:image/png;base64," + data.image_rec_base64;
+                server_imagedata = data.image_rec_base64;
+
+
+
+
+
+
+                $("#image_capture").attr("src", src_data);
+
+                //    { 'id': 14, 'product_name': ' zcxzxczxcz',
+                //     'product_catagory': 2,
+                //     'waranty_info': 'cZxczxc',
+                //      'serial_number': 'zxcxzc',
+                //       'brand_details': 'zxczxc',
+                //        'vender_details': 'zxczxc',
+                //         'po_details': 'zxcxzc',
+                //          'product_types': 'single',
+                //          'product_unit': None,
+                //          'product_amount': None,
+                //           'product_description': None,
+                //            'qrcode_details': None,
+                //             'uniq_id': '70e2d70ed13a11eb9e07d32d6186feb3',
+                //              'is_active': True, 'last_modified_by': '1' }
+
+                table_data = data.data_table;
+
+                if (typeof table_data != "undefined") {
+
+                    $("#warenty_info").val(table_data.acpm_waranty_info);
+                    $("#serial_number").val(table_data.acpm_serial_number);
+                    $("#brand_details").val(table_data.acpm_brand_details);
+                    $("#brought_from").val(table_data.acpm_vender_details);
+                    $("#po_details").val(table_data.acpm_po_details);
+                    $("#catagory_id").val(table_data.acpm_product_catagory);
+                    $("#input_catagory").val(data.catagory_name);
+                    $("#product_names").val(table_data.acpm_product_name);
+                    console.log(table_data.acpm_product_unit);
+
+
+                    $("#select_unit_id").val(table_data.acpm_product_unit).change();
+
+                    // $('.id_100 option[value= table_data.acpm_product_unit]').attr('selected', 'selected');
+
+                    $("#product_quantity").val(table_data.acpm_product_amount);
+                    ans = true;
+                } else {
+
+                    $("#warenty_info").val('');
+                    $("#serial_number").val('');
+                    $("#brand_details").val('');
+                    $("#brought_from").val('');
+                    $("#po_details").val('');
+                    $("#catagory_id").val('0');
+                    $("#input_catagory").val('');
+                    $("#product_names").val('');
+                    $("#product_unit").val('');
+                    $("#product_quantity").val('');
+                    ans = false;
+                }
+
+
+
+
+            },
+
+
+            error: function (err) {
+                alert('something wrong error happened');
+                console.log(err);
+            }
+        });
+
+    }
+
+    // document.addEventListener('DOMContentLoaded', (ev) => {
+    //     let form = document.getElementById('myform');
+    //     let input = document.getElementById('capture');
+    //     input.addEventListener('change', (e) => {
+    //         console.dir(input.files[0]);
+    //         if (input.files[0].type.indexOf('image/') > -1) {
+
+    //             let img = document.getElementById('image_capture');
+    //             img.src = window.URL.createObjectURL(input.files[0]);
+    //             let imagdata_src = input.files[0];
+    //             console.log(imagdata_src);
+
+
+    //             getBase64(imagdata_src).then(
+    //                 data => getdata_from_image(data)
+    //             );
+
+    //             //getdata_from_image(data);
+    //             alert('imagemessage');
+
+
+    //         }
+
+
+    //     })
+
+
+    // })
+</script>
+
+<script type="text/javascript">
+    function initGeolocation() {
+        if (navigator.geolocation) {
+            // Call getCurrentPosition with success and failure callbacks
+            navigator.geolocation.getCurrentPosition(success, fail);
+        }
+        else {
+            alert("Sorry, your browser does not support geolocation services.");
+        }
+    }
+
+    function success(position) {
+
+        document.getElementById('long').value = position.coords.longitude;
+        document.getElementById('lat').value = position.coords.latitude;
+        console.log("location found");
+        console.log(position.coords.longitude, position.coords.latitude);
+    }
+
+    function fail() {
+        console.log("no location found");
+
+        // Could not obtain location
+    }
+
+</script>
+
+<!-- <script>
+
+    const webcamElement = document.getElementById('webcam');
+    const canvasElement = document.getElementById('canvas');
+    const snapSoundElement = document.getElementById('snapSound');
+    const webcam = new Webcam(webcamElement, 'user', canvasElement, snapSoundElement);
+
+
+
+    $(document).ready(function () {
+
+        initGeolocation();
+
+        webcam.start()
+            .then(result => {
+                console.log("webcam started");
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
+
+
+        $("#open_scaner").click(function () {
+            let picture = webcam.snap();
+
+            $("#image_capture").attr("src", picture);
+            console.log(picture);
+            getdata_from_image(picture);
+
+
+
+        });
+    });
+
+    // webcam.start()
+    //     .then(result => {
+    //         console.log("webcam started");
+    //     })
+    //     .catch(err => {
+    //         console.log(err);
+    //     });
+
+    // let picture = webcam.snap();
+    // document.querySelector('#download-photo').href = picture;
+
+
+
+</script> -->
+<script>
+
+
+
+
+    $(document).ready(function () {
+
+
+
+        $("#catagory_select").change(function () {
+
+            var select_text = $("#catagory_select option:selected").text();
+
+            var select_val = $("#catagory_select").val();
+            console.log(select_text, select_val);
+            $("#input_catagory").val(select_text);
+            $("#catagory_id").val(select_val);
+
+
+        });
+
+        $("#catagory_select").change(function () {
+
+            var select_text = $("#catagory_select option:selected").text();
+
+            var select_val = $("#catagory_select").val();
+            console.log(select_text, select_val);
+            $("#input_catagory").val(select_text);
+            $("#catagory_id").val(select_val);
+
+
+        });
+
+
+        $("#input_catagory").keyup(function () {
+            $("#catagory_id").val('0');
+        });
+
+
+
+
+    });
+
+
+
+
+</script>
+<script>
+
+    $(document).ready(function () {
+
+        $('#imageFile').change(function (evt) {
+
+            var files = evt.target.files;
+            var file = files[0];
+
+            if (file) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById('image_capture').src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+                ResizeImage();
+            }
+
+
+
+
+        });
+
+
+
+        $("#scan_button").click(function () {
+            imagedata = $('#image_capture').attr('src')
+
+            getdata_from_image(imagedata);
+        });
+
+
+    });
+
+    function ResizeImage() {
+        if (window.File && window.FileReader && window.FileList && window.Blob) {
+            var filesToUploads = document.getElementById('imageFile').files;
+            var file = filesToUploads[0];
+            if (file) {
+
+                var reader = new FileReader();
+                // Set the image once loaded into file reader
+                reader.onload = function (e) {
+
+                    var img = document.createElement("img");
+                    img.src = e.target.result;
+
+                    var canvas = document.createElement("canvas");
+                    var ctx = canvas.getContext("2d");
+                    ctx.drawImage(img, 0, 0);
+
+                    var MAX_WIDTH = 400;
+                    var MAX_HEIGHT = 400;
+                    var width = img.width;
+                    var height = img.height;
+
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
+                    }
+                    canvas.width = width;
+                    canvas.height = height;
+                    var ctx = canvas.getContext("2d");
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    dataurl = canvas.toDataURL(file.type);
+                    document.getElementById('image_capture').src = dataurl;
+                    console.log('resized');
+
+
+                }
+                reader.readAsDataURL(file);
+
+            }
+
+
+        } else {
+            alert('The File APIs are not fully supported in this browser.');
+        }
+    }
+
+
+
+
+</script>
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,91 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+
+<main>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <div class="card-header">
+                        <h3 class="text-center font-weight-light my-4">Project User Details</h3>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        {% if usertype == 'user' %}
+
+                        <form action="{% url 'admin_watching_user' %}" method="post">
+                        {% else %}
+                        <form action="{% url 'admin_watching_project_manager' %}" method="post">
+                        {% endif %}
+                        {% csrf_token %}
+                            <div class="form-row">
+
+                                <div class="col-md-12 text-center">
+                                    <div class="form-group text-center">
+                                        <label class="small mb-1" for="inputLastName">Select a Project User </label>
+                                        <select id="inputState" class="form-control text-center" name="user_id">
+                                            <option value="0" selected >choose a project user..</option>
+                                            {% for item_manager in total_manager_data %}
+                                            <div class="dropdown-divider"></div>
+                                            <option value="{{item_manager.id}}">
+                                              {{item_manager.username}}
+
+                                            </option>
+                                            {% endfor %}
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="card-footer text-center">
+                                <button type="submit" class="btn btn-dark ">Find details of user</button>
+                            </div>
+
+                        </form>
+
+
+                        {% for item_user in user_data %}
+
+                        <div class="row text-center" >
+
+                          <p>User Name:<b class="text-primary">{{item_user.username}}</b> </p>
+                          <p>First Name:<b class="text-primary">{{item_user.first_name}}</b></p>
+                          <p>Last Name:<b class="text-primary">{{item_user.last_name}}</b></p>
+                          <p>Email:<b class="text-primary">{{item_user.email}}</b></p>
+                          <p>User Type:<b class="text-primary">{{item_user.groups.all.0.name}}</b></p>
+
+
+
+
+                          <div class="col-md-4">
+                            <a class="btn btn-warning btn-sm" href="{% url 'product_transection_view' item_user.id %}">Product Amount</a>
+                          </div>
+
+                          <div class="col-md-4">
+                            <a class="btn btn-info btn-sm" href="{% url 'all_product_transaction_view' item_user.id %}">All Transection</a>
+
+                          </div>
+
+                          <div class="col-md-4">
+                            <a class="btn btn-success btn-sm" href="{% url 'project_manager_view_projects' item_user.id %}">Projects Asigned</a>
+
+                          </div>
+
+                        </div>
+
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

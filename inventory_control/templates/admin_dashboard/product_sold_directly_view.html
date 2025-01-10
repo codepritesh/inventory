@@ -1,0 +1,56 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+
+<main>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-7">
+                <div class="card shadow-lg border-0 rounded-lg mt-5">
+                    <div class="card-header">
+                        <h3 class="text-center font-weight-light my-4">Create a direct sell</h3>
+                        <a href="{% url 'add_direct_customer' %}" class="btn btn-success" role="button" aria-pressed="true">
+                            Add customer here </a>
+                            <a href="{% url 'view_sell' %}" class="btn btn-warning float-right" role="button" aria-pressed="true">
+                                view sell here </a>
+                    </div>
+
+                    <div class="card-body">
+                        <form action="{% url 'product_sold_directly'%}" method="post">
+                            {% csrf_token %}
+                            <div class="form-row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="small mb-1" for="inputLastName">select customer </label>
+                                        <select id="inputState" class="form-control " name="customer_id">
+                                            <option value="0" selected >choose a customer..</option>
+                                            {% for customer in customer_data %}
+                                            <div class="dropdown-divider"></div>
+                                            <option value="{{customer.cd_id}}">
+                                              {{customer.cd_company_name}}
+
+                                            </option>
+                                            {% endfor %}
+
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="card-footer text-center">
+                                <button type="submit" class="btn btn-primary ">Creat Direct sell</button>
+                            </div>
+
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% endblock %}

@@ -1,0 +1,292 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block css_content %}
+<style type="text/css">
+    table,thead,tbody,tfoot,tr,th,td,p { font-family:"Calibri"; font-size:x-small }
+    a.comment-indicator:hover + comment { background:#ffd; position:absolute; display:block; border:1px solid black; padding:0.5em;  } 
+    a.comment-indicator { background:red; display:inline-block; border:1px solid black; width:0.5em; height:0.5em;  } 
+    comment { display:none;  } 
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+<main>
+    <div class="container-fluid">
+        <h1 class="mt-4 title">All products {{total_product_count}}</h1>
+<div class="info">
+        <div class="row ">
+            <div class="col-6 text-left">
+                Total Main catagory:{{ total_main_catagory_count }}
+            </div>
+            <div class="col-6 text-right">
+                total Sub catagory  :{{ total_catagory_count }}
+            </div>
+        </div>
+
+</div>
+<div class="table-responsive">
+
+    <table cellspacing="0" border="0" class="">
+        <colgroup width="139"></colgroup>
+        <colgroup width="84"></colgroup>
+        <colgroup width="85"></colgroup>
+        <colgroup width="89"></colgroup>
+        <colgroup width="164"></colgroup>
+        <colgroup width="64"></colgroup>
+        {% for item_main_cat in total_main_catagory %}
+
+        <tr>
+            <td height="20" align="left" valign=bottom><b><font color="#000000">Category</font></b></td>
+            <td colspan=4 align="center" valign=bottom><b><font color="#000000">{{item_main_cat.pmc_main_catagory_name}}</font></b></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+        </tr>
+        <tr>
+            <td height="20" align="left" valign=bottom><b><font color="#FF0000">Sub- Category</font></b></td>
+            {% for item_maping in product_main_catagory_maping_data %}
+
+                    {% if item_main_cat.pmc_main_catagory_name == item_maping.pmcm_main_catagory.pmc_main_catagory_name %}
+
+                    <td align="left" valign=bottom><b><font color="#FF0000">{{item_maping.pmcm_catagory.acpc_catagory_name}}</font></b></td>
+
+                    {% endif %}
+
+
+            {% endfor %}
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+           </tr>
+
+
+           <tr>
+            <td height="20" align="left" valign=bottom><font color="#000000">Product</font></td>
+
+                    {% for item_maping in product_main_catagory_maping_data %}
+                    
+
+                                {% if item_main_cat.pmc_main_catagory_name == item_maping.pmcm_main_catagory.pmc_main_catagory_name %}
+
+                                        {% for item_product in product_master_data %}
+                                        
+
+                                            {% if item_product.acpm_product_catagory.acpc_catagory_name == item_maping.pmcm_catagory.acpc_catagory_name and item_product.acpm_product_main_catagory.pmc_main_catagory_name == item_maping.pmcm_main_catagory.pmc_main_catagory_name %}
+                                            <td align="left" valign=bottom><font color="#000000">{{item_product.acpm_product_name}}</font></td>
+
+                                            {% endif %}
+
+                                        {% endfor %}
+                                
+
+                                {% endif %}
+                                <td align="left" valign=bottom><font color="#000000"><br></font></td>
+                                </tr>
+                                <tr>
+                                    <td height="20" align="left" valign=bottom><font color="#000000"><br></font></td>
+
+
+                   {% endfor %}
+                </tr>
+
+            
+
+        {% endfor %}
+    </tr>
+
+        
+        <!-- <tr>
+            <td height="20" align="left" valign=bottom><b><font color="#000000">Category</font></b></td>
+            <td colspan=4 align="center" valign=bottom><b><font color="#000000">CAMERA</font></b></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+        </tr>
+        <tr>
+            <td height="20" align="left" valign=bottom><b><font color="#FF0000">Sub- Category</font></b></td>
+            <td align="left" valign=bottom><b><font color="#FF0000">Dome</font></b></td>
+            <td align="left" valign=bottom><b><font color="#FF0000">Bullet</font></b></td>
+            <td align="left" valign=bottom><b><font color="#FF0000">PTZ</font></b></td>
+            <td align="left" valign=bottom><b><font color="#FF0000">Audio</font></b></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+        </tr>
+
+
+        <tr>
+            <td height="20" align="left" valign=bottom><font color="#000000">Product</font></td>
+
+            <td align="left" valign=bottom><font color="#000000">1MP</font></td>
+            <td align="left" valign=bottom><font color="#000000">1MP</font></td>
+            <td align="left" valign=bottom><font color="#000000">1MP</font></td>
+            <td align="left" valign=bottom><font color="#000000">1MP</font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+        </tr>
+        <tr>
+            <td height="20" align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000">2MP</font></td>
+            <td align="left" valign=bottom><font color="#000000">2MP</font></td>
+            <td align="left" valign=bottom><font color="#000000">2MP</font></td>
+            <td align="left" valign=bottom><font color="#000000">2MP</font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+        </tr>
+        <tr>
+            <td height="20" align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000">3MP</font></td>
+            <td align="left" valign=bottom><font color="#000000">3MP</font></td>
+            <td align="left" valign=bottom><font color="#000000">3MP</font></td>
+            <td align="left" valign=bottom><font color="#000000">3MP</font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+        </tr>
+        <tr>
+            <td height="20" align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000">Can Exceed to any MP</font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+        </tr>
+        <tr>
+            <td height="20" align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+        </tr>
+        <tr>
+            <td height="20" align="left" valign=bottom><b>Category</b></td>
+            <td colspan=4 align="center" valign=bottom><b><font color="#000000">Active Network Item</font></b></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+        </tr>
+        <tr>
+            <td height="20" align="left" valign=bottom><b><font color="#FF0000">Sub-Category</font></b></td>
+            <td align="left" valign=bottom><b><font color="#FF0000">Switch</font></b></td>
+            <td align="left" valign=bottom><b><font color="#FF0000">Module</font></b></td>
+            <td align="left" valign=bottom><b><font color="#FF0000">Patch Cord</font></b></td>
+            <td align="left" valign=bottom><b><font color="#FF0000">Tranceiver Module</font></b></td>
+            <td align="left" valign=bottom><b><font color="#FF0000">Firewall</font></b></td>
+        </tr>
+        <tr>
+            <td height="20" align="left" valign=bottom><font color="#000000">Product</font></td>
+            <td align="left" valign=bottom><font color="#000000">8 Port</font></td>
+            <td align="left" valign=bottom><font color="#000000">1G</font></td>
+            <td align="left" valign=bottom><font color="#000000">LC-SC</font></td>
+            <td align="left" valign=bottom><font color="#000000">1G</font></td>
+            <td align="left" valign=bottom><font color="#000000">Red</font></td>
+        </tr>
+        <tr>
+            <td height="20" align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000">16 Port</font></td>
+            <td align="left" valign=bottom><font color="#000000">10G</font></td>
+            <td align="left" valign=bottom><font color="#000000">SC-SC</font></td>
+            <td align="left" valign=bottom><font color="#000000">10G</font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+        </tr>
+        <tr>
+            <td height="20" align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000">24 Port</font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000">LC-LC</font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+        </tr>
+        <tr>
+            <td height="20" align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000">Can exceed</font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+        </tr>
+        <tr>
+            <td height="20" align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+        </tr>
+        <tr>
+            <td height="20" align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+        </tr>
+        <tr>
+            <td height="20" align="left" valign=bottom><b><font color="#000000">Category</font></b></td>
+            <td colspan=2 align="center" valign=bottom><b><font color="#000000">Storage</font></b></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+        </tr>
+        <tr>
+            <td height="20" align="left" valign=bottom><b><font color="#FF0000">Sub-Category</font></b></td>
+            <td align="left" valign=bottom><b><font color="#FF0000">NAS</font></b></td>
+            <td align="left" valign=bottom><b><font color="#FF0000">HDD</font></b></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+        </tr>
+        <tr>
+            <td height="20" align="left" valign=bottom><font color="#000000">Prdouct</font></td>
+            <td align="left" valign=bottom><font color="#000000">12-Bay</font></td>
+            <td align="left" valign=bottom><font color="#000000">2TB</font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+        </tr>
+        <tr>
+            <td height="20" align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000">16-Bay</font></td>
+            <td align="left" valign=bottom><font color="#000000">4TB</font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+        </tr>
+        <tr>
+            <td height="20" align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000">6TB</font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+        </tr>
+        <tr>
+            <td height="20" align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000">8TB</font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+            <td align="left" valign=bottom><font color="#000000"><br></font></td>
+        </tr> -->
+    </table>
+
+
+        <table class="table table-striped text-center" style="font-size:0.8em" >
+
+
+            <tr>
+
+
+                <!-- <th>sl no</th>
+                <th>product name</th>
+                <th>product catagory</th>
+                <th>product type</th>
+                <th>product unit</th>
+                <th>product amount</th>
+                <th>created at</th> -->
+            </tr>
+
+            {% for item in total_main_catagory %}
+            <tr>{{ item.acpm_product_name}}</tr>
+
+            {% endfor %}
+        </table>
+    </div>
+        
+    </div>
+</main>
+
+
+
+
+{% endblock %}

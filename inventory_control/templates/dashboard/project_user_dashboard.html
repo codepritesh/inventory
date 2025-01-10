@@ -1,0 +1,49 @@
+{% extends 'index.html' %}
+{% load static %}
+
+
+{% block content %}
+
+
+<main style="font-size:small;">
+
+    <div class="container-fluid">
+        <h1 class="mt-4 title"> Project User Dashboard</h1>
+
+            {% if request.user.is_superuser %}
+
+
+
+            <div class="col-xl-3">
+                <div class="card mb-4">
+                    <div class="card-body shadow">
+                    <div class="cardtop">
+                   <span class="icnn"> <i class="fas fa-user"></i> </span>
+                    <h2>  Project user</h2>
+                    </div>
+
+
+                    <a class="normal" href="{% url 'create_site_user'%}" role="button">create project user</a>
+                    <a class="normal" href="{% url 'view_site_user'%}" role="button">view project user</a>
+                    <a class="normal" href="{% url 'admin_watching_user' %}" role="button">project users details</a>
+
+
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+    {% endif %}
+</main>
+
+
+
+
+
+
+
+
+{% endblock %}

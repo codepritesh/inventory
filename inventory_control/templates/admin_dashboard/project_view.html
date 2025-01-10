@@ -1,0 +1,110 @@
+{% extends 'index.html' %}
+
+{% block content %}
+
+
+<main>
+    <div class="container-fluid">
+<div class="row"> 
+ 
+  <h1 class="mt-4 title">Projects  </h1>   
+ 
+ 
+ 
+</div>
+       
+<div class="row mb-2"> 
+ 
+<div class="col-6">
+     <a class="btn btn-primary float-left" href="{% url 'create_new_project'%}" role="button">Create a new project</a>
+</div>
+<div class="col-6">
+    <a class="btn btn-primary float-left" href="{% url 'project_view'%}" role="button">lattest</a>
+</div>
+</div>
+
+ 
+           
+
+      
+        
+
+<div class="info">
+        <div class="row ">
+            <div class="col-6 text-left">
+                Total data found:{{ totaldata }}
+            </div>
+            <div class="col-6 text-right">
+                showing data :{{ showingdata }}
+            </div>
+        </div>
+</div>
+<div class="table-responsive">
+
+        <table class="table table-striped">
+            <tr>
+                <th>id</th>
+                <th>sl no</th>
+                <th>project name</th>
+                <th>state</th>
+                <th>district</th>
+                <th>city</th>
+                <th>Is all product available</th>
+                <th>Is complete</th>
+                <th>created_at</th>
+                <th>last_modified_on</th>
+                <th>Details</th>
+
+
+
+
+
+
+            </tr>
+
+            {% for item in query_results %}
+            <tr>
+
+                <td>{{ item.pm_id }}</td>
+                <td>{{forloop.counter|add:pagedata_starting}}</td>
+
+                <td>{{ item.pm_project_name }}</td>
+                <td>{{ item.pm_state }}</td>
+                <td>{{ item.pm_district }}</td>
+                <td>{{ item.pm_city }}</td>
+                <td>{{ item.pm_all_product_available }}</td>
+                <td>{{ item.pm_is_complete }}</td>
+                <td>{{ item.pm_created_at }}</td>
+                <td>{{ item.pm_last_modified_on }}</td>
+                <td>
+                    <a class="page-link" href="{% url 'details_of_project' item.pm_id %}"><i
+                            class="fas fa-edit"></i></a>
+
+                </td>
+
+
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+        <nav aria-label="...">
+            <ul class="pagination pagination-sm justify-content-center">
+
+                <li class="page-item"><a class="page-link" href="{% url 'project_view_pagination' prev_pagenumber %}">
+                        pre
+                    </a></li>
+
+                <li class="page-item active"><a class="page-link" href="#">{{ curent_page }}</a></li>
+                <li class="page-item"><a class="page-link" href="{% url 'project_view_pagination' next_page_number %}">
+                        next </a></li>
+            </ul>
+        </nav>
+    </div>
+</main>
+
+
+
+
+
+
+{% endblock %}
